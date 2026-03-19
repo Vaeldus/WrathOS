@@ -1,0 +1,8 @@
+# WrathOS kernel pin - prevents stock Debian kernel from being installed
+Package: linux-image-* linux-headers-*
+Pin: origin ""
+Pin-Priority: -1
+
+Package: linux-image-6.19.9-cachy linux-headers-6.19.9-cachy
+Pin: release o=WrathOS
+Pin-Priority: 1001

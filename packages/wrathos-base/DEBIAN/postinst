@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+echo "Configuring WrathOS base system..."
+
+if [ -f /usr/share/wrathos/wrathos-archive-keyring.gpg ]; then
+    cp /usr/share/wrathos/wrathos-archive-keyring.gpg \
+       /usr/share/keyrings/wrathos-archive-keyring.gpg
+    echo "WrathOS signing key installed."
+fi
+
+apt-get update -qq
+
+echo "WrathOS base configuration complete."

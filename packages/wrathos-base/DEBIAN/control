@@ -1,0 +1,9 @@
+Package: wrathos-base
+Version: 1.0
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: linux-image-6.19.9-cachy, linux-headers-6.19.9-cachy
+Conflicts: linux-image-amd64, linux-image-generic
+Description: WrathOS base metapackage
+ Ensures the CachyOS kernel is installed and conflicts with
+ stock Debian kernel metapackages to prevent accidental replacement.
