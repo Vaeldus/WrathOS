@@ -1,0 +1,15 @@
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 2, June 1991
+
+WrathOS build scripts, configurations, branding, and tooling are 
+licensed under the GNU General Public License v2.0.
+
+The Linux kernel and CachyOS patches included in WrathOS are also
+licensed under GPL-2.0. See https://www.kernel.org/copying.html
+
+For the full license text see:
+https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+
+Copyright (C) 2026 Vaeldus / WrathOS Project
+All build scripts and original configurations are original works
+of the WrathOS project unless otherwise noted in CREDITS.md
