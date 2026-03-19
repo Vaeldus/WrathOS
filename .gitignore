@@ -1,0 +1,15 @@
+# Kernel build artifacts
+*.deb
+*.tar.gz
+*.log
+*.o
+*.ko
+
+# Build directories
+/build/binary/
+/build/chroot/
+
+# Editor files
+.vscode/
+*.swp
+*~
