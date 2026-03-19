@@ -1,0 +1,8 @@
+Package: wrathos-bundle-steam
+Version: 1.0
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base
+Description: WrathOS Steam gaming bundle
+ Installs Steam via Flatpak along with Proton-GE and
+ required 32-bit libraries for maximum game compatibility.

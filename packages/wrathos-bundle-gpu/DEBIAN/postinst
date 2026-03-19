@@ -1,0 +1,48 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS GPU bundle..."
+
+# Install Vulkan loader and common tools for all users
+apt-get install -y \
+    vulkan-tools \
+    libvulkan1 \
+    mesa-vulkan-drivers \
+    mesa-utils \
+    corectrl
+
+# Detect GPU vendor
+GPU=$(lspci | grep -i "vga\|3d\|display" | head -1)
+
+if echo "$GPU" | grep -qi "nvidia"; then
+    echo "NVIDIA GPU detected..."
+    apt-get install -y \
+        nvidia-driver \
+        nvidia-vulkan-icd \
+        libgl1-nvidia-glx
+    echo "NVIDIA drivers installed."
+    echo "NOTE: Reboot required for NVIDIA drivers to activate."
+
+elif echo "$GPU" | grep -qi "amd\|radeon\|advanced micro"; then
+    echo "AMD GPU detected..."
+    apt-get install -y \
+        firmware-amd-graphics \
+        mesa-vulkan-drivers \
+        libvulkan1 \
+        radeontop
+    echo "AMD drivers installed."
+
+elif echo "$GPU" | grep -qi "intel"; then
+    echo "Intel GPU detected..."
+    apt-get install -y \
+        intel-media-va-driver \
+        mesa-vulkan-drivers \
+        libvulkan1
+    echo "Intel drivers installed."
+
+else
+    echo "Could not detect GPU vendor automatically."
+    echo "Please install drivers manually for: $GPU"
+fi
+
+echo "GPU bundle installation complete."

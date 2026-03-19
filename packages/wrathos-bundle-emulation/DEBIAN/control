@@ -1,0 +1,8 @@
+Package: wrathos-bundle-emulation
+Version: 1.0
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base
+Description: WrathOS emulation bundle
+ Installs RetroArch, EmulationStation-DE and standalone
+ emulators for a full retro gaming experience.

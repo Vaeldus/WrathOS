@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS launchers bundle..."
+
+# Install Flatpak if not present
+apt-get install -y flatpak
+
+# Add Flathub if not already added
+flatpak remote-add --if-not-exists flathub \
+    https://flathub.org/repo/flathub.flatpakrepo
+
+# Install launchers via Flatpak
+echo "Installing Heroic Games Launcher..."
+flatpak install -y flathub com.heroicgameslauncher.hgl
+
+echo "Installing Bottles..."
+flatpak install -y flathub com.usebottles.bottles
+
+echo "Installing Lutris..."
+apt-get install -y lutris
+
+echo "Launchers bundle installation complete."
+echo "Heroic and Bottles are available in your application menu."

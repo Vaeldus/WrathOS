@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS Steam bundle..."
+
+# Enable 32-bit architecture for Steam compatibility
+dpkg --add-architecture i386
+apt-get update -qq
+
+# Install required 32-bit libraries
+apt-get install -y \
+    mesa-vulkan-drivers:i386 \
+    libvulkan1:i386 \
+    libgl1:i386
+
+# Install Flatpak if not present
+apt-get install -y flatpak
+
+# Add Flathub if not already added
+flatpak remote-add --if-not-exists flathub \
+    https://flathub.org/repo/flathub.flatpakrepo
+
+# Install Steam via Flatpak
+flatpak install -y flathub com.valvesoftware.Steam
+
+echo "Steam bundle installation complete."
+echo "Launch Steam from your application menu."

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS performance tools bundle..."
+
+apt-get install -y \
+    gamemode \
+    gamescope \
+    mangohud \
+    mangohud:i386 \
+    goverlay \
+    mesa-utils \
+    vulkan-tools \
+    htop \
+    nvtop
+
+echo "Configuring GameMode..."
+usermod -aG gamemode $SUDO_USER 2>/dev/null || true
+
+echo "Performance tools bundle installation complete."
+echo "Use gamemoderun %command% in Steam launch options."
+echo "Use MANGOHUD=1 %command% to enable the HUD."

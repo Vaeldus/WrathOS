@@ -1,0 +1,9 @@
+Package: wrathos-bundle-gpu
+Version: 1.0
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base
+Description: WrathOS GPU drivers bundle
+ Installs GPU drivers appropriate for your hardware.
+ Includes AMD, NVIDIA, and Intel driver support along
+ with Vulkan ICD loaders for all vendors.

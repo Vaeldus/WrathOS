@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS emulation bundle..."
+
+# Install Flatpak if not present
+apt-get install -y flatpak
+
+# Add Flathub if not already added
+flatpak remote-add --if-not-exists flathub \
+    https://flathub.org/repo/flathub.flatpakrepo
+
+# Install RetroArch via Flatpak
+echo "Installing RetroArch..."
+flatpak install -y flathub org.libretro.RetroArch
+
+# Install EmulationStation-DE via Flatpak
+echo "Installing EmulationStation-DE..."
+flatpak install -y flathub org.es_de.frontend
+
+# Install standalone emulators from Trixie repos
+echo "Installing standalone emulators..."
+apt-get install -y \
+    dolphin-emu \
+    pcsx2 \
+    ppsspp
+
+echo "Emulation bundle installation complete."
+echo "Launch EmulationStation-DE from your application menu"
+echo "to manage all your emulators in one place."

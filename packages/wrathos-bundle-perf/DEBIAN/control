@@ -1,0 +1,8 @@
+Package: wrathos-bundle-perf
+Version: 1.0
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base
+Description: WrathOS performance tools bundle
+ Installs GameMode, MangoHud, Gamescope and other tools
+ that improve gaming performance and provide monitoring.
