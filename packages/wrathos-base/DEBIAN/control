@@ -1,6 +1,8 @@
 Package: wrathos-base
 Version: 1.0
 Architecture: amd64
+Section: misc
+Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
 Depends: linux-image-6.19.9-cachy, linux-headers-6.19.9-cachy
 Conflicts: linux-image-amd64, linux-image-generic

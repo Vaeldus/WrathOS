@@ -1,6 +1,8 @@
 Package: wrathos-bundle-emulation
 Version: 1.0
 Architecture: amd64
+Section: misc
+Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
 Depends: wrathos-base
 Description: WrathOS emulation bundle
