@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+echo "Configuring Calamares installer..."
+
+# Create desktop shortcut for installer
+mkdir -p /usr/share/applications
+cat > /usr/share/applications/calamares.desktop << 'DESKEOF'
+[Desktop Entry]
+Type=Application
+Name=Install Wrath/OS
+GenericName=System Installer
+Exec=pkexec calamares
+Icon=/etc/calamares/branding/wrathos/logo.png
+Terminal=false
+Categories=System;
+Keywords=install;installer;
+DESKEOF
+
+# Also add to desktop for live session
+mkdir -p /etc/skel/Desktop
+cp /usr/share/applications/calamares.desktop /etc/skel/Desktop/
+chmod +x /etc/skel/Desktop/calamares.desktop
+
+echo "Calamares configured successfully."

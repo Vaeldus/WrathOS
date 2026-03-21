@@ -1,0 +1,23 @@
+<svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+<style>
+  .w-dark { fill: #1a0000; }
+  .w-main { fill: #8B0000; }
+  .w-mid { fill: #B22222; }
+  .w-bright { fill: #CC2222; }
+</style>
+<g transform="translate(130,130)">
+  <polygon points="-130,-110 -100,-110 -60,30 -20,-60 0,-60 20,-60 60,30 100,-110 130,-110 130,-80 80,-80 40,60 20,60 0,10 -20,60 -40,60 -80,-80 -130,-80" class="w-dark"/>
+  <polygon points="-130,-110 -100,-110 -80,-80 -130,-80" class="w-bright"/>
+  <polygon points="100,-110 130,-110 130,-80 80,-80" class="w-bright"/>
+  <polygon points="-100,-110 -60,30 -50,30 -88,-110" class="w-main"/>
+  <polygon points="100,-110 60,30 50,30 88,-110" class="w-main"/>
+  <polygon points="-60,30 -20,-60 -10,-60 -48,30" class="w-mid"/>
+  <polygon points="60,30 20,-60 10,-60 48,30" class="w-mid"/>
+  <polygon points="-20,-60 20,-60 10,-60 0,10 -10,-60" class="w-bright"/>
+  <polygon points="-60,30 -40,60 -30,60 -48,30" class="w-mid"/>
+  <polygon points="60,30 40,60 30,60 48,30" class="w-mid"/>
+  <polygon points="-40,60 -20,60 0,10 20,60 40,60 30,60 0,20 -30,60" class="w-main"/>
+  <line x1="-130" y1="-95" x2="130" y2="-95" stroke="#FF3333" stroke-width="0.8" opacity="0.25"/>
+  <line x1="-40" y1="60" x2="40" y2="60" stroke="#FF3333" stroke-width="0.8" opacity="0.35"/>
+</g>
+</svg>

@@ -57,3 +57,10 @@ tree
 vim
 zip
 unzip
+
+# Installer
+calamares
+calamares-settings-debian
+qml-module-qtquick2
+qml-module-qtquick-controls2
+qml-module-qtquick-layouts

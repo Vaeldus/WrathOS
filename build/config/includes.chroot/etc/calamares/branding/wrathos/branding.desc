@@ -1,0 +1,29 @@
+componentName: wrathos
+
+welcomeStyleCalamares: false
+welcomeExpandingLogo: true
+
+strings:
+  productName: Wrath/OS
+  shortProductName: WrathOS
+  version: "0.1"
+  shortVersion: "0.1"
+  versionedName: "Wrath/OS 0.1"
+  shortVersionedName: "WrathOS 0.1"
+  bootloaderEntryName: WrathOS
+  productUrl: "https://github.com/Vaeldus/WrathOS"
+  supportUrl: "https://github.com/Vaeldus/WrathOS/issues"
+  releaseNotesUrl: "https://github.com/Vaeldus/WrathOS"
+
+images:
+  productLogo: "logo.png"
+  productIcon: "logo.png"
+  productWelcome: "welcome.png"
+
+slideshow: "show.qml"
+
+style:
+  sidebarBackground: "#0a0a0a"
+  sidebarText: "#DDDDDD"
+  sidebarTextSelect: "#FF3333"
+  sidebarTextHighlight: "#8B0000"
