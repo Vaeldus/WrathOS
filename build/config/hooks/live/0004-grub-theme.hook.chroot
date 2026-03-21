@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS GRUB theme..."
+
+mkdir -p /boot/grub/themes/wrathos
+
+cp -r /opt/wrathos-grub/* /boot/grub/themes/wrathos/
+
+cat >> /etc/default/grub << 'GRUBEOF'
+GRUB_THEME="/boot/grub/themes/wrathos/theme.txt"
+GRUB_BACKGROUND="/boot/grub/themes/wrathos/background.png"
+GRUB_TIMEOUT=5
+GRUB_TIMEOUT_STYLE=menu
+GRUBEOF
+
+echo "WrathOS GRUB theme installed."

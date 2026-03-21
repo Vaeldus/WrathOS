@@ -1,0 +1,53 @@
+# Wrath/OS GRUB Theme
+
+title-text: ""
+desktop-color: "#0a0a0a"
+desktop-image: "background.png"
+
++ boot_menu {
+  left = 25%
+  top = 30%
+  width = 50%
+  height = 40%
+  item_font = "Unifont Regular 16"
+  item_color = "#888888"
+  selected_item_color = "#DDDDDD"
+  item_height = 36
+  item_padding = 8
+  item_spacing = 4
+  selected_item_pixmap_style = "select_*.png"
+  scrollbar = false
+}
+
++ label {
+  left = 25%
+  top = 22%
+  width = 50%
+  height = 30
+  text = "Wrath/OS"
+  font = "Unifont Bold 28"
+  color = "#DDDDDD"
+  align = "center"
+}
+
++ label {
+  left = 25%
+  top = 27%
+  width = 50%
+  height = 20
+  text = "Forging ahead reliably, Gaming at the edge."
+  font = "Unifont Regular 12"
+  color = "#883333"
+  align = "center"
+}
+
++ label {
+  left = 25%
+  top = 88%
+  width = 50%
+  height = 20
+  text = "Use arrow keys to select, Enter to boot"
+  font = "Unifont Regular 12"
+  color = "#4a0000"
+  align = "center"
+}
