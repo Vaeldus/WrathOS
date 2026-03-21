@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+echo "Setting WrathOS system identity..."
+
+# Override lsb-release
+cat > /etc/lsb-release << 'LSBEOF'
+DISTRIB_ID=WrathOS
+DISTRIB_RELEASE=0.1
+DISTRIB_CODENAME=trixie
+DISTRIB_DESCRIPTION="Wrath/OS 0.1 (trixie)"
+LSBEOF
+
+# Override debian_version to identify as WrathOS
+echo "wrathos/trixie" > /etc/debian_version
+
+# Set hostname
+echo "wrathos" > /etc/hostname
+
+echo "WrathOS system identity configured."
