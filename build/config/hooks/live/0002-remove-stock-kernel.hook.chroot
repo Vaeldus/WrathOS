@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+echo "Ensuring stock Debian kernel is removed..."
+
+# Hold the CachyOS kernel so it can't be replaced
+apt-mark hold linux-image-6.19.9-cachy 2>/dev/null || true
+
+# Remove any remaining stock kernels
+for kernel in $(dpkg -l | grep linux-image | grep -v cachy | grep "^ii" | awk '{print $2}'); do
+    echo "Removing $kernel..."
+    apt-get remove -y --purge "$kernel" 2>/dev/null || true
+done
+
+apt-get autoremove -y 2>/dev/null || true
+
+echo "Stock kernel removal complete."
