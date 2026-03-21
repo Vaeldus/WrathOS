@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+echo "Fixing live boot kernel path..."
+
+# Find the CachyOS kernel and initrd
+KERNEL=$(ls /boot/vmlinuz-*cachy* 2>/dev/null | head -1)
+INITRD=$(ls /boot/initrd.img-*cachy* 2>/dev/null | head -1)
+
+echo "Found kernel: $KERNEL"
+echo "Found initrd: $INITRD"
+
+if [ -z "$KERNEL" ]; then
+    echo "ERROR: No CachyOS kernel found in /boot"
+    ls /boot/
+    exit 1
+fi
+
+# Create symlinks with the expected live boot names
+ln -sf "$KERNEL" /boot/vmlinuz
+ln -sf "$INITRD" /boot/initrd.img
+
+echo "Live boot kernel path fixed."
