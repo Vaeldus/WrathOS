@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+echo "Installing WrathOS Plymouth theme..."
+
+apt-get install -y plymouth plymouth-themes
+
+update-alternatives --install \
+    /usr/share/plymouth/themes/default.plymouth \
+    default.plymouth \
+    /usr/share/plymouth/themes/wrathos/wrathos.plymouth \
+    100
+
+update-alternatives --set default.plymouth \
+    /usr/share/plymouth/themes/wrathos/wrathos.plymouth
+
+update-initramfs -u 2>/dev/null || true
+
+echo "WrathOS Plymouth theme installed."

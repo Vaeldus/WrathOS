@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=WrathOS
+Description=Wrath/OS boot splash theme
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/wrathos
+ScriptFile=/usr/share/plymouth/themes/wrathos/wrathos.script
