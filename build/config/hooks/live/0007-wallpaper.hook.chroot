@@ -3,19 +3,50 @@ set -e
 
 echo "Setting WrathOS default wallpaper..."
 
-mkdir -p /usr/share/wallpapers/WrathOS
+# Write metadata for KDE wallpaper chooser
+cat > /usr/share/wallpapers/WrathOS/metadata.desktop << 'METAEOF'
+[Desktop Entry]
+Name=WrathOS
+X-KDE-PluginInfo-Name=WrathOS
 
-# Set as KDE default wallpaper via kscreenlocker and plasma config
-mkdir -p /etc/skel/.config
+[Wallpaper]
+defaultImage=wrathos-default.png
+METAEOF
 
-cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KDEEOF'
+# Create autostart script that sets wallpaper on first login
+mkdir -p /etc/skel/.config/autostart
+
+cat > /etc/skel/.config/autostart/wrathos-wallpaper.desktop << 'AUTOEOF'
+[Desktop Entry]
+Type=Application
+Name=WrathOS Wallpaper Setup
+Exec=/usr/bin/wrathos-set-wallpaper.sh
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+AUTOEOF
+
+# Create the wallpaper setting script
+cat > /usr/bin/wrathos-set-wallpaper.sh << 'SCRIPTEOF'
+#!/bin/bash
+WALLPAPER="file:///usr/share/wallpapers/WrathOS/wrathos-default.png"
+
+# Set wallpaper using plasma-apply-wallpaperimage if available
+if command -v plasma-apply-wallpaperimage >/dev/null 2>&1; then
+    plasma-apply-wallpaperimage /usr/share/wallpapers/WrathOS/wrathos-default.png
+fi
+
+# Also write config directly
+mkdir -p ~/.config
+cat > ~/.config/plasma-org.kde.plasma.desktop-appletsrc << KDEEOF
 [Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+Image=${WALLPAPER}
 KDEEOF
 
-cat > /etc/skel/.config/kscreenlockerrc << 'KDEEOF'
-[Greeter][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
+# Remove this autostart after first run
+rm -f ~/.config/autostart/wrathos-wallpaper.desktop
+SCRIPTEOF
+
+chmod +x /usr/bin/wrathos-set-wallpaper.sh
 
 echo "WrathOS wallpaper configured."
