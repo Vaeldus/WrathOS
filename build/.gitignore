@@ -1,0 +1,16 @@
+# live-build artifacts
+binary/
+binary.modified_timestamps
+cache/
+chroot/
+chroot.files
+chroot.packages.install
+chroot.packages.live
+.build/
+wget-log*
+*.iso
+*.iso.sha256
+*.contents
+*.files
+*.packages
+efi.img
