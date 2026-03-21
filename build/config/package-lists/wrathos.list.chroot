@@ -1,0 +1,59 @@
+# WrathOS base package list
+
+# System essentials
+systemd
+systemd-sysv
+dbus
+sudo
+bash
+curl
+wget
+git
+
+# Network
+network-manager
+network-manager-gnome
+firmware-linux
+firmware-linux-nonfree
+
+# Audio
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+
+# Graphics base
+mesa-vulkan-drivers
+libvulkan1
+vulkan-tools
+mesa-utils
+
+# KDE Plasma desktop
+kde-plasma-desktop
+sddm
+sddm-theme-breeze
+konsole
+dolphin
+kate
+ark
+plasma-nm
+plasma-pa
+kde-standard
+
+# Live system tools
+live-boot
+live-config
+live-config-systemd
+
+# Fonts
+fonts-dejavu
+fonts-liberation
+fonts-noto
+
+# Basic utilities
+htop
+tree
+vim
+zip
+unzip

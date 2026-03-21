@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+echo "Installing CachyOS kernel..."
+
+# Install the CachyOS kernel from WrathOS repo
+apt-get install -y linux-image-6.19.9-cachy linux-headers-6.19.9-cachy
+
+# Remove stock Debian kernels if present
+apt-get remove -y --purge linux-image-amd64 linux-image-generic 2>/dev/null || true
+
+# Update GRUB
+update-grub 2>/dev/null || true
+
+echo "CachyOS kernel installed successfully."
