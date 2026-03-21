@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+echo "Setting WrathOS default wallpaper..."
+
+mkdir -p /usr/share/wallpapers/WrathOS
+
+# Set as KDE default wallpaper via kscreenlocker and plasma config
+mkdir -p /etc/skel/.config
+
+cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KDEEOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
+
+cat > /etc/skel/.config/kscreenlockerrc << 'KDEEOF'
+[Greeter][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
+
+echo "WrathOS wallpaper configured."
