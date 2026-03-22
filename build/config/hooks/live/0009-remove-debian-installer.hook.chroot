@@ -1,17 +1,12 @@
 #!/bin/bash
 set -e
 
-echo "Cleaning up live session..."
+echo "Removing Debian installer shortcuts..."
 
-# Remove Debian installer
 rm -f /usr/share/applications/calamares-install-debian.desktop
 rm -f /etc/xdg/autostart/calamares-desktop-icon.desktop
 rm -f /usr/bin/add-calamares-desktop-icon
 rm -f /usr/bin/calamares-install-debian
-
-# Remove configurator from live app menu and desktop
-# It will be added back by firstboot service after installation
 rm -f /usr/share/applications/wrathos-configurator.desktop
-rm -f /etc/skel/Desktop/wrathos-setup.desktop
 
-echo "Live session cleanup complete."
+echo "Debian installer shortcuts removed."
