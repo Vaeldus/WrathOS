@@ -17,7 +17,10 @@ fi
 echo "Setting up WrathOS for user: $REAL_USER"
 
 mkdir -p "${REAL_HOME}/.config/autostart"
+mkdir -p "${REAL_HOME}/Desktop"
+mkdir -p "${REAL_HOME}/.local/share/applications"
 
+# Configurator autostart
 cat > "${REAL_HOME}/.config/autostart/wrathos-configurator.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -29,6 +32,7 @@ X-GNOME-Autostart-enabled=true
 X-KDE-autostart-phase=2
 DESKEOF
 
+# Wallpaper autostart
 cat > "${REAL_HOME}/.config/autostart/wrathos-wallpaper.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -39,27 +43,36 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 DESKEOF
 
+# Wallpaper config
 cat > "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
 KDEEOF
 
+# Disable KDE welcome
 cat > "${REAL_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
 [General]
 ShouldShow=false
 KDEEOF
 
+# Trust desktop files
 cat > "${REAL_HOME}/.config/kiorc" << 'KDEEOF'
 [Executable scripts]
 behaviourOnLaunch=execute
 KDEEOF
 
-mkdir -p "${REAL_HOME}/Desktop"
+# Disable session restore
+cat > "${REAL_HOME}/.config/ksmserverrc" << 'KDEEOF'
+[General]
+loginMode=default
+KDEEOF
+
+# Desktop icon
 cat > "${REAL_HOME}/Desktop/wrathos-setup.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Gaming Setup
-Exec=bash -c "wrathos-configurator"
+Exec=wrathos-configurator
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
@@ -68,27 +81,28 @@ Comment=Configure your WrathOS gaming bundles
 DESKEOF
 chmod +x "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 
-chown -R "${REAL_USER}:${REAL_USER}" \
-    "${REAL_HOME}/.config/autostart" \
-    "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" \
-    "${REAL_HOME}/.config/plasma-welcomescreen.conf" \
-    "${REAL_HOME}/.config/kiorc" \
-    "${REAL_HOME}/Desktop/wrathos-setup.desktop"
+# Copy to local applications so KDE trusts it
+cp "${REAL_HOME}/Desktop/wrathos-setup.desktop" \
+   "${REAL_HOME}/.local/share/applications/wrathos-setup.desktop"
 
+# Fix all ownership
+chown -R "${REAL_USER}:${REAL_USER}" \
+    "${REAL_HOME}/.config" \
+    "${REAL_HOME}/Desktop" \
+    "${REAL_HOME}/.local"
+
+# Application menu entry
 cat > /usr/share/applications/wrathos-configurator.desktop << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Gaming Setup
-Exec=bash -c "wrathos-configurator"
+Exec=wrathos-configurator
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
 Keywords=gaming;setup;bundles;
 Comment=Configure your WrathOS gaming bundles
 DESKEOF
-
-# Run wallpaper script immediately for first boot
-su -c "/usr/bin/wrathos-set-wallpaper.sh" "$REAL_USER" 2>/dev/null || true
 
 touch /var/lib/wrathos-firstboot-done
 echo "WrathOS first boot setup complete for $REAL_USER."

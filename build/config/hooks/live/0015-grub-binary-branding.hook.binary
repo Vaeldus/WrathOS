@@ -3,20 +3,26 @@ set -e
 
 echo "Applying WrathOS branding to GRUB binary..."
 
-# Replace Debian text in GRUB config files
-find binary/boot/grub -name "*.cfg" 2>/dev/null | while read f; do
-    sed -i \
-        's/Debian GNU\/Linux/WrathOS/g' \
-        "$f" 2>/dev/null || true
-    sed -i \
-        's/debian/WrathOS/gi' \
-        "$f" 2>/dev/null || true
+# Replace splash.png (the hardhat) with our W logo
+cp chroot/usr/share/wallpapers/WrathOS/wrathos-default.png \
+   binary/boot/grub/splash.png 2>/dev/null || true
+
+# Replace Debian text in all grub config files
+for cfg in \
+    binary/boot/grub/grub.cfg \
+    binary/boot/grub/theme.cfg \
+    binary/boot/grub/config.cfg \
+    binary/boot/grub/x86_64-efi/grub.cfg; do
+    if [ -f "$cfg" ]; then
+        sed -i 's/Debian GNU\/Linux/WrathOS/g' "$cfg"
+        sed -i 's/Debian Live/WrathOS Live/g' "$cfg"
+    fi
 done
 
-# Replace the logo
-find binary/boot/grub -name "*.png" 2>/dev/null | while read f; do
-    cp binary/../chroot/usr/share/wallpapers/WrathOS/wrathos-default.png \
-       "$f" 2>/dev/null || true
-done
+# Fix the live-theme
+if [ -f binary/boot/grub/live-theme/theme.txt ]; then
+    sed -i 's/Debian/WrathOS/g' \
+        binary/boot/grub/live-theme/theme.txt
+fi
 
 echo "WrathOS GRUB binary branding applied."
