@@ -87,5 +87,8 @@ Keywords=gaming;setup;bundles;
 Comment=Configure your WrathOS gaming bundles
 DESKEOF
 
+# Run wallpaper script immediately for first boot
+su -c "/usr/bin/wrathos-set-wallpaper.sh" "$REAL_USER" 2>/dev/null || true
+
 touch /var/lib/wrathos-firstboot-done
 echo "WrathOS first boot setup complete for $REAL_USER."
