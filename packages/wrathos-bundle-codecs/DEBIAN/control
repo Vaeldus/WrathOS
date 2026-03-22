@@ -1,0 +1,10 @@
+Package: wrathos-bundle-codecs
+Version: 1.0
+Architecture: amd64
+Section: misc
+Priority: optional
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base
+Description: WrathOS media codecs bundle
+ Installs VLC, FFmpeg, GStreamer plugins and codec libraries
+ for full media playback support including H.264, H.265 and AAC.
