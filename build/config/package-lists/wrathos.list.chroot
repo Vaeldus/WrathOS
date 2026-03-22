@@ -64,3 +64,10 @@ calamares-settings-debian
 qml-module-qtquick2
 qml-module-qtquick-controls2
 qml-module-qtquick-layouts
+
+# Bootloader
+grub-efi-amd64
+grub-efi-amd64-signed
+shim-signed
+efibootmgr
+dosfstools
