@@ -57,10 +57,10 @@ BUNDLES = [
 AUTOSTART_FILE = os.path.expanduser(
     "~/.config/autostart/wrathos-configurator.desktop"
 )
-FLAG_FILE = os.path.expanduser("~/.wrathos-configured")
+
 AUTOSTART_CONTENT = """[Desktop Entry]
 Type=Application
-Name=Wrath/OS Setup
+Name=WrathOS Setup
 Exec=wrathos-configurator
 Hidden=false
 NoDisplay=true
@@ -131,7 +131,7 @@ class WrathOSConfigurator(Adw.Application):
 
     def on_activate(self, app):
         self.win = Gtk.ApplicationWindow(application=app)
-        self.win.set_title("Wrath/OS Setup")
+        self.win.set_title("WrathOS Setup")
         self.win.set_default_size(580, 680)
         self.win.set_resizable(False)
 
@@ -156,7 +156,7 @@ class WrathOSConfigurator(Adw.Application):
         self.main_box.set_margin_start(40)
         self.main_box.set_margin_end(40)
 
-        title = Gtk.Label(label="Welcome to Wrath/OS")
+        title = Gtk.Label(label="Welcome to WrathOS")
         title.add_css_class("wrathos-title")
         title.set_margin_bottom(6)
         self.main_box.append(title)
@@ -373,7 +373,7 @@ class WrathOSConfigurator(Adw.Application):
                 self.log(f"✗ Error installing {bundle['name']}: {e}")
 
         self.set_progress(1.0, "Installation complete.")
-        self.log("\n✓ All done! Enjoy Wrath/OS.")
+        self.log("\n✓ All done! Enjoy WrathOS.")
         GLib.idle_add(self.build_done_view)
 
     def build_done_view(self):
@@ -418,7 +418,7 @@ class WrathOSConfigurator(Adw.Application):
         box.append(title)
 
         desc = Gtk.Label(
-            label="Would you like Wrath/OS Setup to open automatically\n"
+            label="Would you like WrathOS Setup to open automatically\n"
                   "each time you log in?"
         )
         desc.add_css_class("autostart-label")
@@ -452,20 +452,14 @@ class WrathOSConfigurator(Adw.Application):
         self.win.set_child(box)
 
     def on_autostart_yes(self, btn):
-        os.makedirs(
-            os.path.dirname(AUTOSTART_FILE), exist_ok=True
-        )
+        os.makedirs(os.path.dirname(AUTOSTART_FILE), exist_ok=True)
         with open(AUTOSTART_FILE, 'w') as f:
             f.write(AUTOSTART_CONTENT)
-        self.finish()
+        self.build_farewell_view()
 
     def on_autostart_no(self, btn):
         if os.path.exists(AUTOSTART_FILE):
             os.remove(AUTOSTART_FILE)
-        self.finish()
-
-    def finish(self):
-        open(FLAG_FILE, 'w').close()
         self.build_farewell_view()
 
     def build_farewell_view(self):
@@ -483,7 +477,7 @@ class WrathOSConfigurator(Adw.Application):
         box.append(done)
 
         sub = Gtk.Label(
-            label="Welcome to Wrath/OS.\nForging ahead reliably, Gaming at the edge."
+            label="Welcome to WrathOS.\nForging ahead reliably, Gaming at the edge."
         )
         sub.add_css_class("wrathos-hint")
         sub.set_justify(Gtk.Justification.CENTER)
@@ -498,10 +492,6 @@ class WrathOSConfigurator(Adw.Application):
         self.win.set_child(box)
 
 def main():
-    flag_file = os.path.expanduser("~/.wrathos-configured")
-    if os.path.exists(flag_file) and "--force" not in sys.argv:
-        sys.exit(0)
-
     app = WrathOSConfigurator()
     app.run(sys.argv)
 

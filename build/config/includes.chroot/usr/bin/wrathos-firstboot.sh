@@ -17,9 +17,8 @@ fi
 echo "Setting up WrathOS for user: $REAL_USER"
 
 mkdir -p "${REAL_HOME}/.config/autostart"
-mkdir -p "${REAL_HOME}/.local/share/plasma/wallpapers"
 
-# Configurator autostart
+# Configurator autostart - no flag check, always runs until user says no
 cat > "${REAL_HOME}/.config/autostart/wrathos-configurator.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -31,7 +30,7 @@ X-GNOME-Autostart-enabled=true
 X-KDE-autostart-phase=2
 DESKEOF
 
-# Wallpaper autostart
+# Wallpaper autostart - runs every login, never deletes itself
 cat > "${REAL_HOME}/.config/autostart/wrathos-wallpaper.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -42,15 +41,9 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 DESKEOF
 
-# Write wallpaper config in full KDE6 format
+# Write wallpaper config
 cat > "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
 [Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
-
-# KDE6 also uses kscreenlockerrc for lock screen wallpaper
-cat > "${REAL_HOME}/.config/kscreenlockerrc" << 'KDEEOF'
-[Greeter][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
 KDEEOF
 
@@ -60,13 +53,19 @@ cat > "${REAL_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
 ShouldShow=false
 KDEEOF
 
-# Desktop icon
+# Trust desktop files
+cat > "${REAL_HOME}/.config/kiorc" << 'KDEEOF'
+[Executable scripts]
+behaviourOnLaunch=execute
+KDEEOF
+
+# Desktop icon - use bash -c to ensure correct execution
 mkdir -p "${REAL_HOME}/Desktop"
 cat > "${REAL_HOME}/Desktop/wrathos-setup.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Gaming Setup
-Exec=kdesu -c wrathos-configurator --force
+Exec=bash -c "wrathos-configurator --force"
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
@@ -79,8 +78,8 @@ chmod +x "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 chown -R "${REAL_USER}:${REAL_USER}" \
     "${REAL_HOME}/.config/autostart" \
     "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" \
-    "${REAL_HOME}/.config/kscreenlockerrc" \
     "${REAL_HOME}/.config/plasma-welcomescreen.conf" \
+    "${REAL_HOME}/.config/kiorc" \
     "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 
 # Application menu entry
@@ -88,7 +87,7 @@ cat > /usr/share/applications/wrathos-configurator.desktop << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Gaming Setup
-Exec=kdesu -c "wrathos-configurator --force"
+Exec=bash -c "wrathos-configurator --force"
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
