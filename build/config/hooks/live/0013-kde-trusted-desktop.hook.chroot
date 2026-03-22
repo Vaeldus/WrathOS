@@ -3,29 +3,36 @@ set -e
 
 echo "Configuring KDE settings..."
 
-# Disable KDE welcome screen system-wide
+# Remove KDE welcome screen autostart entirely
+find /etc/xdg/autostart -name "*welcome*" -delete 2>/dev/null || true
+find /usr/share/autostart -name "*welcome*" -delete 2>/dev/null || true
+find /usr/share/kpackage -name "*welcome*" -type d \
+    -exec rm -rf {} + 2>/dev/null || true
+
+# Disable system-wide
 mkdir -p /etc/xdg
 cat > /etc/xdg/plasma-welcomescreen.conf << 'KDEEOF'
 [General]
 ShouldShow=false
 KDEEOF
 
-# Disable for all new users via skel
+# Disable for skel
 mkdir -p /etc/skel/.config
 cat > /etc/skel/.config/plasma-welcomescreen.conf << 'KDEEOF'
 [General]
 ShouldShow=false
 KDEEOF
 
-# Trust desktop files
-cat >> /etc/skel/.config/kiorc << 'KDEEOF'
+# Trust desktop files for skel
+cat > /etc/skel/.config/kiorc << 'KDEEOF'
 [Executable scripts]
 behaviourOnLaunch=execute
 KDEEOF
 
-# Find and disable KDE welcome autostart
-find /etc/xdg/autostart -name "*welcome*" -exec sed -i 's/X-KDE-autostart-condition=.*//' {} \; 2>/dev/null || true
-find /usr/share/autostart -name "*welcome*" -delete 2>/dev/null || true
-find /etc/xdg/autostart -name "*welcome*" -delete 2>/dev/null || true
+# Set wallpaper for skel
+cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KDEEOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
 
 echo "KDE settings configured."

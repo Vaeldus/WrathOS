@@ -1,0 +1,23 @@
+#!/bin/bash
+
+LIVE_USER="user"
+LIVE_HOME="/home/${LIVE_USER}"
+
+mkdir -p "${LIVE_HOME}/.config"
+
+cat > "${LIVE_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
+[General]
+ShouldShow=false
+KDEEOF
+
+cat > "${LIVE_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
+
+cat > "${LIVE_HOME}/.config/kiorc" << 'KDEEOF'
+[Executable scripts]
+behaviourOnLaunch=execute
+KDEEOF
+
+chown -R "${LIVE_USER}:${LIVE_USER}" "${LIVE_HOME}/.config"

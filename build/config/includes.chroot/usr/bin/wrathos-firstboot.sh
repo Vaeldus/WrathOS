@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# Only run on installed system, not live environment
 if grep -q "boot=live" /proc/cmdline; then
     echo "Live environment detected, skipping firstboot setup."
     exit 0
@@ -18,6 +17,7 @@ fi
 echo "Setting up WrathOS for user: $REAL_USER"
 
 mkdir -p "${REAL_HOME}/.config/autostart"
+mkdir -p "${REAL_HOME}/.local/share/plasma/wallpapers"
 
 # Configurator autostart
 cat > "${REAL_HOME}/.config/autostart/wrathos-configurator.desktop" << 'DESKEOF'
@@ -42,13 +42,31 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 DESKEOF
 
+# Write wallpaper config in full KDE6 format
+cat > "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
+
+# KDE6 also uses kscreenlockerrc for lock screen wallpaper
+cat > "${REAL_HOME}/.config/kscreenlockerrc" << 'KDEEOF'
+[Greeter][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
+
+# Disable KDE welcome
+cat > "${REAL_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
+[General]
+ShouldShow=false
+KDEEOF
+
 # Desktop icon
 mkdir -p "${REAL_HOME}/Desktop"
 cat > "${REAL_HOME}/Desktop/wrathos-setup.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Gaming Setup
-Exec=wrathos-configurator --force
+Exec=kdesu -c wrathos-configurator --force
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
@@ -57,9 +75,12 @@ Comment=Configure your WrathOS gaming bundles
 DESKEOF
 chmod +x "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 
-# Fix ownership
+# Fix all ownership
 chown -R "${REAL_USER}:${REAL_USER}" \
     "${REAL_HOME}/.config/autostart" \
+    "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" \
+    "${REAL_HOME}/.config/kscreenlockerrc" \
+    "${REAL_HOME}/.config/plasma-welcomescreen.conf" \
     "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 
 # Application menu entry
@@ -67,23 +88,13 @@ cat > /usr/share/applications/wrathos-configurator.desktop << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Gaming Setup
-Exec=wrathos-configurator --force
+Exec=kdesu -c "wrathos-configurator --force"
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
 Keywords=gaming;setup;bundles;
 Comment=Configure your WrathOS gaming bundles
 DESKEOF
-
-# Disable KDE welcome for installed user
-mkdir -p "${REAL_HOME}/.config"
-cat > "${REAL_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
-[General]
-ShouldShow=false
-KDEEOF
-
-chown "${REAL_USER}:${REAL_USER}" \
-    "${REAL_HOME}/.config/plasma-welcomescreen.conf"
 
 touch /var/lib/wrathos-firstboot-done
 echo "WrathOS first boot setup complete for $REAL_USER."
