@@ -42,15 +42,6 @@ X-GNOME-Autostart-enabled=true
 DESKEOF
 
 cat > "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
-[Containments][1]
-activityId=
-formfactor=0
-immutability=1
-lastScreen=0
-location=0
-plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.image
-
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
 KDEEOF

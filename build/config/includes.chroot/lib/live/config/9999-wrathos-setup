@@ -3,54 +3,21 @@
 LIVE_USER="user"
 LIVE_HOME="/home/${LIVE_USER}"
 
-for i in $(seq 1 30); do
-    [ -d "$LIVE_HOME" ] && break
-    sleep 1
-done
-
-[ -d "$LIVE_HOME" ] || exit 0
-
 mkdir -p "${LIVE_HOME}/.config"
-mkdir -p "${LIVE_HOME}/.config/autostart"
-mkdir -p "${LIVE_HOME}/Desktop"
 
-cp /etc/skel/.config/plasma-welcomescreen.conf \
-   "${LIVE_HOME}/.config/plasma-welcomescreen.conf" 2>/dev/null || true
+cat > "${LIVE_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
+[General]
+ShouldShow=false
+KDEEOF
 
-cp /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc \
-   "${LIVE_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" 2>/dev/null || true
+cat > "${LIVE_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
+[Containments][1][Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
+KDEEOF
 
-cp /etc/skel/.config/kiorc \
-   "${LIVE_HOME}/.config/kiorc" 2>/dev/null || true
+cat > "${LIVE_HOME}/.config/kiorc" << 'KDEEOF'
+[Executable scripts]
+behaviourOnLaunch=execute
+KDEEOF
 
-cp /etc/skel/.config/ksmserverrc \
-   "${LIVE_HOME}/.config/ksmserverrc" 2>/dev/null || true
-
-cp /etc/skel/.config/autostart/wrathos-wallpaper.desktop \
-   "${LIVE_HOME}/.config/autostart/wrathos-wallpaper.desktop" 2>/dev/null || true
-
-cp /etc/skel/Desktop/calamares.desktop \
-   "${LIVE_HOME}/Desktop/calamares.desktop" 2>/dev/null || true
-
-chmod +x "${LIVE_HOME}/Desktop/calamares.desktop" 2>/dev/null || true
-
-# Mark desktop file as trusted by KDE
-TRUST_FILE="${LIVE_HOME}/.local/share/kservices5/calamares.desktop"
-mkdir -p "$(dirname $TRUST_FILE)"
-cp /etc/skel/Desktop/calamares.desktop "$TRUST_FILE" 2>/dev/null || true
-
-# Write KDE trusted attribute
-awk 'FNR==1{print "[Desktop Entry]"} !/\[Desktop Entry\]/{print}' \
-    "${LIVE_HOME}/Desktop/calamares.desktop" > /tmp/calamares-trust.desktop \
-    2>/dev/null || true
-
-# Use xattr to mark as trusted if available  
-if command -v gio >/dev/null 2>&1; then
-    gio set "${LIVE_HOME}/Desktop/calamares.desktop" \
-        metadata::trusted true 2>/dev/null || true
-fi
-
-chown -R "${LIVE_USER}:${LIVE_USER}" \
-    "${LIVE_HOME}/.config" \
-    "${LIVE_HOME}/Desktop" \
-    "${LIVE_HOME}/.local" 2>/dev/null || true
+chown -R "${LIVE_USER}:${LIVE_USER}" "${LIVE_HOME}/.config"
