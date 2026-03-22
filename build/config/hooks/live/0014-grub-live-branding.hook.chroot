@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+echo "Applying WrathOS GRUB live branding..."
+
+# Replace the Debian logo used in GRUB live boot screen
+for dir in /usr/share/desktop-base/*/; do
+    if [ -f "${dir}grub/logo.png" ]; then
+        cp /usr/share/wallpapers/WrathOS/wrathos-default.png \
+           "${dir}grub/logo.png" 2>/dev/null || true
+    fi
+done
+
+# Override grub live theme text
+find /boot/grub /usr/share/grub -name "*.cfg" 2>/dev/null | \
+    xargs -I{} sed -i \
+    's/Debian GNU\/Linux/WrathOS/g;s/debian/WrathOS/gi' \
+    {} 2>/dev/null || true
+
+# Replace live-build default grub theme
+mkdir -p /usr/share/desktop-base/wrathos-theme/grub
+cp /usr/share/wallpapers/WrathOS/wrathos-default.png \
+   /usr/share/desktop-base/wrathos-theme/grub/grub-4x3.png 2>/dev/null || true
+cp /usr/share/wallpapers/WrathOS/wrathos-default.png \
+   /usr/share/desktop-base/wrathos-theme/grub/grub-16x9.png 2>/dev/null || true
+
+echo "WrathOS GRUB live branding applied."
