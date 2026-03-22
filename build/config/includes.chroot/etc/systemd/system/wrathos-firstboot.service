@@ -1,6 +1,6 @@
 [Unit]
 Description=WrathOS First Boot Setup
-After=graphical-session.target
+After=network.target
 ConditionPathExists=!/var/lib/wrathos-firstboot-done
 
 [Service]
@@ -9,4 +9,4 @@ ExecStart=/usr/bin/wrathos-firstboot.sh
 RemainAfterExit=yes
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=multi-user.target

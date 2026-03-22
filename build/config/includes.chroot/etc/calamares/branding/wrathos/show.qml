@@ -16,7 +16,7 @@ Presentation {
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottomMargin: 40
-            text: "Welcome to Wrath/OS — Forging ahead reliably, Gaming at the edge."
+            text: "Welcome to WrathOS — Forging ahead reliably, Gaming at the edge."
             color: "#DDDDDD"
             font.pixelSize: 18
         }

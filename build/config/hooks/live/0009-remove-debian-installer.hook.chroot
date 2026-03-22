@@ -1,10 +1,15 @@
 #!/bin/bash
 set -e
 
-echo "Removing Debian installer shortcuts..."
+echo "Removing Debian installer shortcuts and live-only items..."
 
 rm -f /usr/share/applications/calamares-install-debian.desktop
 rm -f /etc/xdg/autostart/calamares-desktop-icon.desktop
 rm -f /usr/bin/add-calamares-desktop-icon
+rm -f /usr/bin/calamares-install-debian
 
-echo "Debian installer shortcuts removed."
+# Remove WrathOS setup icon from live session
+# It should only appear after installation via firstboot service
+rm -f /usr/share/applications/wrathos-configurator.desktop
+
+echo "Live session cleanup complete."

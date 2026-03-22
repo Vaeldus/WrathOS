@@ -4,11 +4,11 @@ welcomeStyleCalamares: false
 welcomeExpandingLogo: true
 
 strings:
-  productName: Wrath/OS
+  productName: WrathOS
   shortProductName: WrathOS
   version: "0.1"
   shortVersion: "0.1"
-  versionedName: "Wrath/OS 0.1"
+  versionedName: "WrathOS 0.1"
   shortVersionedName: "WrathOS 0.1"
   bootloaderEntryName: WrathOS
   productUrl: "https://github.com/Vaeldus/WrathOS"
