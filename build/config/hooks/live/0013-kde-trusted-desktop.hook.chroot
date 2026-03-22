@@ -1,21 +1,31 @@
 #!/bin/bash
 set -e
 
-echo "Configuring KDE desktop file trust..."
+echo "Configuring KDE settings..."
 
+# Disable KDE welcome screen system-wide
+mkdir -p /etc/xdg
+cat > /etc/xdg/plasma-welcomescreen.conf << 'KDEEOF'
+[General]
+ShouldShow=false
+KDEEOF
+
+# Disable for all new users via skel
 mkdir -p /etc/skel/.config
+cat > /etc/skel/.config/plasma-welcomescreen.conf << 'KDEEOF'
+[General]
+ShouldShow=false
+KDEEOF
 
+# Trust desktop files
 cat >> /etc/skel/.config/kiorc << 'KDEEOF'
 [Executable scripts]
 behaviourOnLaunch=execute
 KDEEOF
 
-cat >> /etc/skel/.config/kdeglobals << 'KDEEOF'
-[KDE]
-macStyle=false
+# Find and disable KDE welcome autostart
+find /etc/xdg/autostart -name "*welcome*" -exec sed -i 's/X-KDE-autostart-condition=.*//' {} \; 2>/dev/null || true
+find /usr/share/autostart -name "*welcome*" -delete 2>/dev/null || true
+find /etc/xdg/autostart -name "*welcome*" -delete 2>/dev/null || true
 
-[General]
-DesktopEntryTrust=true
-KDEEOF
-
-echo "KDE desktop trust configured."
+echo "KDE settings configured."
