@@ -15,39 +15,17 @@ METAEOF
 cat > /usr/bin/wrathos-set-wallpaper.sh << 'SCRIPTEOF'
 #!/bin/bash
 WALLPAPER="file:///usr/share/wallpapers/WrathOS/wrathos-default.png"
-
+sleep 3
 if command -v plasma-apply-wallpaperimage >/dev/null 2>&1; then
     plasma-apply-wallpaperimage /usr/share/wallpapers/WrathOS/wrathos-default.png
 fi
-
 mkdir -p ~/.config
 cat > ~/.config/plasma-org.kde.plasma.desktop-appletsrc << KDEEOF
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=${WALLPAPER}
 KDEEOF
-
 rm -f ~/.config/autostart/wrathos-wallpaper.desktop
 SCRIPTEOF
 
 chmod +x /usr/bin/wrathos-set-wallpaper.sh
-
-# Set system-wide KDE default wallpaper
-DEFAULTS="/usr/share/plasma/shells/org.kde.plasma.desktop/contents/defaults"
-if [ -f "$DEFAULTS" ]; then
-    if ! grep -q "org.kde.image" "$DEFAULTS"; then
-        cat >> "$DEFAULTS" << 'KDEEOF'
-
-[Wallpaper]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
-    fi
-fi
-
-# Also set via skel so it applies to installed user
-mkdir -p /etc/skel/.config
-cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KDEEOF'
-[Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
-
-echo "WrathOS wallpaper configured."
+echo "WrathOS wallpaper script installed."

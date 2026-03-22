@@ -4,7 +4,6 @@ set -e
 echo "Configuring Calamares installer..."
 
 mkdir -p /usr/share/applications
-
 cat > /usr/share/applications/calamares.desktop << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -20,24 +19,5 @@ DESKEOF
 mkdir -p /etc/skel/Desktop
 cp /usr/share/applications/calamares.desktop /etc/skel/Desktop/
 chmod +x /etc/skel/Desktop/calamares.desktop
-
-# Disable KDE Welcome Center in live session
-mkdir -p /etc/skel/.config
-cat > /etc/skel/.config/plasma-welcomescreen.conf << 'KDEEOF'
-[General]
-ShouldShow=false
-KDEEOF
-
-cat > /etc/skel/.config/kwalletrc << 'KDEEOF'
-[Wallet]
-First Use=false
-KDEEOF
-
-# Disable KDE welcome for all users
-mkdir -p /usr/share/knsrcfiles
-cat > /etc/xdg/plasma-welcomescreen.conf << 'KDEEOF'
-[General]
-ShouldShow=false
-KDEEOF
 
 echo "Calamares configured successfully."

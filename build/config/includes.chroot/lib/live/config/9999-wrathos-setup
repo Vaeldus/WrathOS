@@ -3,21 +3,27 @@
 LIVE_USER="user"
 LIVE_HOME="/home/${LIVE_USER}"
 
+# Wait for home directory to exist
+for i in $(seq 1 10); do
+    [ -d "$LIVE_HOME" ] && break
+    sleep 1
+done
+
+[ -d "$LIVE_HOME" ] || exit 0
+
 mkdir -p "${LIVE_HOME}/.config"
+mkdir -p "${LIVE_HOME}/.config/autostart"
 
-cat > "${LIVE_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
-[General]
-ShouldShow=false
-KDEEOF
+cp /etc/skel/.config/plasma-welcomescreen.conf \
+   "${LIVE_HOME}/.config/plasma-welcomescreen.conf" 2>/dev/null || true
 
-cat > "${LIVE_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
-[Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
+cp /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc \
+   "${LIVE_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" 2>/dev/null || true
 
-cat > "${LIVE_HOME}/.config/kiorc" << 'KDEEOF'
-[Executable scripts]
-behaviourOnLaunch=execute
-KDEEOF
+cp /etc/skel/.config/kiorc \
+   "${LIVE_HOME}/.config/kiorc" 2>/dev/null || true
+
+cp /etc/skel/.config/autostart/wrathos-wallpaper.desktop \
+   "${LIVE_HOME}/.config/autostart/wrathos-wallpaper.desktop" 2>/dev/null || true
 
 chown -R "${LIVE_USER}:${LIVE_USER}" "${LIVE_HOME}/.config"

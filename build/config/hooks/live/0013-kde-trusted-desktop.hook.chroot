@@ -1,38 +1,43 @@
 #!/bin/bash
 set -e
 
-echo "Configuring KDE settings..."
+echo "Configuring KDE system defaults..."
 
-# Remove KDE welcome screen autostart entirely
+# Remove plasma-welcome package entirely
+apt-get remove -y --purge plasma-welcome 2>/dev/null || true
+
+# Remove any remaining welcome autostart files
 find /etc/xdg/autostart -name "*welcome*" -delete 2>/dev/null || true
 find /usr/share/autostart -name "*welcome*" -delete 2>/dev/null || true
-find /usr/share/kpackage -name "*welcome*" -type d \
-    -exec rm -rf {} + 2>/dev/null || true
 
-# Disable system-wide
-mkdir -p /etc/xdg
-cat > /etc/xdg/plasma-welcomescreen.conf << 'KDEEOF'
-[General]
-ShouldShow=false
-KDEEOF
-
-# Disable for skel
+# Single source of truth for skel
 mkdir -p /etc/skel/.config
+mkdir -p /etc/skel/.config/autostart
+
 cat > /etc/skel/.config/plasma-welcomescreen.conf << 'KDEEOF'
 [General]
 ShouldShow=false
 KDEEOF
 
-# Trust desktop files for skel
-cat > /etc/skel/.config/kiorc << 'KDEEOF'
-[Executable scripts]
-behaviourOnLaunch=execute
-KDEEOF
-
-# Set wallpaper for skel
 cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KDEEOF'
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
 KDEEOF
 
-echo "KDE settings configured."
+cat > /etc/skel/.config/kiorc << 'KDEEOF'
+[Executable scripts]
+behaviourOnLaunch=execute
+KDEEOF
+
+# Wallpaper autostart for all users
+cat > /etc/skel/.config/autostart/wrathos-wallpaper.desktop << 'DESKEOF'
+[Desktop Entry]
+Type=Application
+Name=WrathOS Wallpaper Setup
+Exec=/usr/bin/wrathos-set-wallpaper.sh
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+DESKEOF
+
+echo "KDE system defaults configured."
