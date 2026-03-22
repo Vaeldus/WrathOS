@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "Removing Debian installer shortcuts..."
+
+rm -f /usr/share/applications/calamares-install-debian.desktop
+rm -f /etc/xdg/autostart/calamares-desktop-icon.desktop
+rm -f /usr/bin/add-calamares-desktop-icon
+
+echo "Debian installer shortcuts removed."

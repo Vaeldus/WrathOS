@@ -3,15 +3,14 @@ set -e
 
 echo "Fixing live boot kernel filename..."
 
-# We know the kernel is at ./live/vmlinuz-6.19.9-cachy
 cd live
 
 echo "Contents of live directory before fix:"
 ls -la
 
-# Create symlinks with names live boot expects
-ln -sf vmlinuz-6.19.9-cachy vmlinuz-amd64
-ln -sf initrd.img-6.19.9-cachy initrd.img-amd64
+# Copy instead of symlink so GRUB can find it
+cp vmlinuz-6.19.9-cachy vmlinuz-amd64
+cp initrd.img-6.19.9-cachy initrd.img-amd64
 
 echo "Contents of live directory after fix:"
 ls -la
