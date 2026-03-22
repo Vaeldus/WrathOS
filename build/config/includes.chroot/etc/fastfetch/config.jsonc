@@ -1,0 +1,35 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "/etc/fastfetch/wrathos.txt",
+    "type": "file",
+    "color": {
+      "1": "red"
+    }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "keys": "red",
+      "title": "white"
+    }
+  },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "kernel",
+    "uptime",
+    "packages",
+    "shell",
+    "display",
+    "de",
+    "wm",
+    "terminal",
+    "cpu",
+    "gpu",
+    "memory",
+    "separator",
+    "colors"
+  ]
+}

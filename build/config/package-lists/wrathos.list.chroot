@@ -71,3 +71,6 @@ grub-efi-amd64-signed
 shim-signed
 efibootmgr
 dosfstools
+
+# System info
+fastfetch

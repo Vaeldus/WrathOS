@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+echo "Configuring fastfetch..."
+
+mkdir -p /etc/skel/.config/fastfetch
+
+cp /etc/fastfetch/config.jsonc /etc/skel/.config/fastfetch/config.jsonc
+
+cat > /etc/skel/.bashrc_wrathos << 'BASHEOF'
+fastfetch
+BASHEOF
+
+# Append fastfetch to bashrc so it runs on terminal open
+echo "" >> /etc/skel/.bashrc
+echo "# WrathOS - show system info on terminal open" >> /etc/skel/.bashrc
+echo "fastfetch" >> /etc/skel/.bashrc
+
+echo "Fastfetch configured."
