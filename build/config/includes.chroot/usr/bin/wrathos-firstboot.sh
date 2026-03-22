@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# Only run on installed system, not live environment
+if grep -q "boot=live" /proc/cmdline; then
+    echo "Live environment detected, skipping firstboot setup."
+    exit 0
+fi
+
 REAL_USER=$(getent passwd | awk -F: '$3 >= 1000 && $3 < 65534 {print $1}' | head -1)
 REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
 
@@ -36,7 +42,7 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 DESKEOF
 
-# Desktop icon — uses Terminal=true so it runs in terminal with pkexec
+# Desktop icon
 mkdir -p "${REAL_HOME}/Desktop"
 cat > "${REAL_HOME}/Desktop/wrathos-setup.desktop" << 'DESKEOF'
 [Desktop Entry]
@@ -48,9 +54,7 @@ Terminal=false
 Categories=System;Settings;
 Keywords=gaming;setup;bundles;
 Comment=Configure your WrathOS gaming bundles
-X-KDE-SubstituteUID=false
 DESKEOF
-
 chmod +x "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 
 # Fix ownership
@@ -71,7 +75,7 @@ Keywords=gaming;setup;bundles;
 Comment=Configure your WrathOS gaming bundles
 DESKEOF
 
-# Disable KDE welcome for installed user too
+# Disable KDE welcome for installed user
 mkdir -p "${REAL_HOME}/.config"
 cat > "${REAL_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
 [General]
@@ -82,5 +86,4 @@ chown "${REAL_USER}:${REAL_USER}" \
     "${REAL_HOME}/.config/plasma-welcomescreen.conf"
 
 touch /var/lib/wrathos-firstboot-done
-
 echo "WrathOS first boot setup complete for $REAL_USER."

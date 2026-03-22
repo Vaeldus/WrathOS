@@ -1,0 +1,21 @@
+#!/bin/bash
+set -e
+
+echo "Configuring KDE desktop file trust..."
+
+mkdir -p /etc/skel/.config
+
+cat >> /etc/skel/.config/kiorc << 'KDEEOF'
+[Executable scripts]
+behaviourOnLaunch=execute
+KDEEOF
+
+cat >> /etc/skel/.config/kdeglobals << 'KDEEOF'
+[KDE]
+macStyle=false
+
+[General]
+DesktopEntryTrust=true
+KDEEOF
+
+echo "KDE desktop trust configured."
