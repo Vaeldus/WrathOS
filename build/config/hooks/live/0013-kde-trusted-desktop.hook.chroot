@@ -10,7 +10,20 @@ apt-get remove -y --purge plasma-welcome 2>/dev/null || true
 find /etc/xdg/autostart -name "*welcome*" -delete 2>/dev/null || true
 find /usr/share/autostart -name "*welcome*" -delete 2>/dev/null || true
 
-# Single source of truth for skel
+# System-wide KDE defaults
+mkdir -p /etc/xdg
+cat > /etc/xdg/plasma-welcomescreen.conf << 'KDEEOF'
+[General]
+ShouldShow=false
+KDEEOF
+
+# Disable session restore system-wide so wallpaper config is always read
+cat > /etc/xdg/ksmserverrc << 'KDEEOF'
+[General]
+loginMode=default
+KDEEOF
+
+# Skel configs for all new users
 mkdir -p /etc/skel/.config
 mkdir -p /etc/skel/.config/autostart
 
@@ -27,6 +40,11 @@ KDEEOF
 cat > /etc/skel/.config/kiorc << 'KDEEOF'
 [Executable scripts]
 behaviourOnLaunch=execute
+KDEEOF
+
+cat > /etc/skel/.config/ksmserverrc << 'KDEEOF'
+[General]
+loginMode=default
 KDEEOF
 
 # Wallpaper autostart for all users
