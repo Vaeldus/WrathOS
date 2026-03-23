@@ -4,7 +4,6 @@ Architecture: amd64
 Section: misc
 Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
-Depends: wrathos-base
+Depends: wrathos-base, dolphin-emu, flatpak
 Description: WrathOS emulation bundle
- Installs RetroArch, EmulationStation-DE and standalone
- emulators for a full retro gaming experience.
+ Installs Dolphin emulator and Flatpak for RetroArch.

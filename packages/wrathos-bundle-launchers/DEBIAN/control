@@ -4,7 +4,6 @@ Architecture: amd64
 Section: misc
 Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
-Depends: wrathos-base
-Description: WrathOS game launchers bundle
- Installs Heroic Games Launcher, Lutris, and Bottles
- providing access to Epic, GOG, and other storefronts.
+Depends: wrathos-base, lutris, flatpak
+Description: WrathOS launchers bundle
+ Installs Lutris and Flatpak for Heroic and Bottles.

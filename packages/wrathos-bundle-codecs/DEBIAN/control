@@ -4,7 +4,6 @@ Architecture: amd64
 Section: misc
 Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
-Depends: wrathos-base
+Depends: wrathos-base, ffmpeg, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly, gstreamer1.0-libav, flatpak
 Description: WrathOS media codecs bundle
- Installs VLC, FFmpeg, GStreamer plugins and codec libraries
- for full media playback support including H.264, H.265 and AAC.
+ Installs FFmpeg, GStreamer plugins, and VLC via Flatpak.

@@ -4,8 +4,6 @@ Architecture: amd64
 Section: misc
 Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
-Depends: wrathos-base
+Depends: wrathos-base, mesa-vulkan-drivers, mesa-vulkan-drivers:i386, libvulkan1, libvulkan1:i386, vulkan-tools
 Description: WrathOS GPU drivers bundle
- Installs GPU drivers appropriate for your hardware.
- Includes AMD, NVIDIA, and Intel driver support along
- with Vulkan ICD loaders for all vendors.
+ Installs Mesa Vulkan drivers and tools for AMD and Intel GPUs.

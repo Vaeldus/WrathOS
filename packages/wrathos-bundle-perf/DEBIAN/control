@@ -4,7 +4,7 @@ Architecture: amd64
 Section: misc
 Priority: optional
 Maintainer: WrathOS Project <zxd@lunarys.org>
-Depends: wrathos-base
+Depends: wrathos-base, gamemode, mangohud, gamescope
 Description: WrathOS performance tools bundle
- Installs GameMode, MangoHud, Gamescope and other tools
- that improve gaming performance and provide monitoring.
+ Installs GameMode, MangoHud, and Gamescope for
+ performance monitoring and optimization.
