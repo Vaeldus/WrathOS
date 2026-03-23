@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "Setting up WrathOS bundle repository..."
+
+cd /opt/wrathos-bundles
+dpkg-scanpackages . /dev/null > Packages 2>/dev/null || true
+gzip -k Packages
+
+echo "WrathOS bundle repository created."
