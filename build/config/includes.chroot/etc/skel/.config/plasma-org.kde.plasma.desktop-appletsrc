@@ -1,2 +1,5 @@
+[Containments][1][General]
+plugin=org.kde.plasma.folder
+
 [Containments][1][Wallpaper][org.kde.image][General]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
