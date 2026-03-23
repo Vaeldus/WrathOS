@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+echo "Disabling KDE welcome center..."
+
+# Replace plasma-welcome binary with a no-op
+# This is the most reliable way to prevent it showing in the live session
+mv /usr/bin/plasma-welcome /usr/bin/plasma-welcome.disabled
+cat > /usr/bin/plasma-welcome << 'NOOPEOF'
+#!/bin/bash
+exit 0
+NOOPEOF
+chmod +x /usr/bin/plasma-welcome
+
+# Trust desktop files
+mkdir -p /etc/skel/.config
+cat > /etc/skel/.config/kiorc << 'KDEEOF'
+[Executable scripts]
+behaviourOnLaunch=execute
+KDEEOF
+
+echo "KDE welcome center disabled."
