@@ -19,7 +19,7 @@ BUNDLES = [
     },
     {
         "id": "wrathos-bundle-steam",
-        "name": "Steam + Proton-GE",
+        "name": "Steam",
         "desc": "Steam (Flatpak) · Proton-GE · DXVK · VKD3D",
         "recommended": True,
         "default": True,
@@ -40,7 +40,7 @@ BUNDLES = [
     },
     {
         "id": "wrathos-bundle-launchers",
-        "name": "Game Launchers",
+        "name": "Launchers",
         "desc": "Heroic · Lutris · Bottles · Epic · GOG",
         "recommended": False,
         "default": False,
@@ -156,12 +156,12 @@ class WrathOSConfigurator(Adw.Application):
         self.main_box.set_margin_start(40)
         self.main_box.set_margin_end(40)
 
-        title = Gtk.Label(label="Welcome to WrathOS")
+        title = Gtk.Label(label="WrathOS Setup")
         title.add_css_class("wrathos-title")
         title.set_margin_bottom(6)
         self.main_box.append(title)
 
-        subtitle = Gtk.Label(label="SELECT YOUR GAMING BUNDLES")
+        subtitle = Gtk.Label(label="SELECT YOUR BUNDLES")
         subtitle.add_css_class("wrathos-subtitle")
         subtitle.set_margin_bottom(6)
         self.main_box.append(subtitle)
@@ -353,24 +353,83 @@ class WrathOSConfigurator(Adw.Application):
         return False
 
     def run_installs(self, selected):
-        total = len(selected)
-        for i, bundle in enumerate(selected):
-            self.set_progress(i / total, f"Installing {bundle['name']}...")
-            self.log(f"→ Installing {bundle['name']}...")
-            try:
-                result = subprocess.run(
-                    ["pkexec", "apt-get", "install", "-y", bundle["id"]],
-                    capture_output=True,
-                    text=True
-                )
-                if result.returncode == 0:
-                    self.log(f"✓ {bundle['name']} installed successfully.")
-                else:
-                    self.log(
-                        f"✗ {bundle['name']} failed: {result.stderr[:200]}"
-                    )
-            except Exception as e:
-                self.log(f"✗ Error installing {bundle['name']}: {e}")
+        bundle_ids = [b["id"] for b in selected]
+        bundle_names = [b["name"] for b in selected]
+
+        self.set_progress(0.1, "Authenticating...")
+        self.log(f"→ Installing: {', '.join(bundle_names)}")
+        self.log("Please authenticate when prompted...")
+
+        # Single pkexec call for all bundles at once
+        try:
+            result = subprocess.run(
+                ["pkexec", "apt-get", "install", "-y"] + bundle_ids,
+                capture_output=True,
+                text=True,
+                timeout=600
+            )
+            if result.returncode == 0:
+                self.set_progress(0.7, "Packages installed...")
+                self.log("✓ Packages installed successfully.")
+            else:
+                self.log(f"✗ Installation failed:\n{result.stderr[:400]}")
+                self.set_progress(1.0, "Installation failed.")
+                GLib.idle_add(self.build_done_view)
+                return
+        except subprocess.TimeoutExpired:
+            self.log("✗ Installation timed out after 10 minutes.")
+            self.set_progress(1.0, "Timed out.")
+            GLib.idle_add(self.build_done_view)
+            return
+        except Exception as e:
+            self.log(f"✗ Error: {e}")
+            self.set_progress(1.0, "Error.")
+            GLib.idle_add(self.build_done_view)
+            return
+
+        # Install Flatpak apps for relevant bundles
+        flatpak_map = {
+            "wrathos-bundle-steam": [
+                ("com.valvesoftware.Steam", "Steam"),
+            ],
+            "wrathos-bundle-launchers": [
+                ("com.heroicgameslauncher.hgl", "Heroic"),
+                ("com.usebottles.bottles", "Bottles"),
+            ],
+            "wrathos-bundle-emulation": [
+                ("org.libretro.RetroArch", "RetroArch"),
+            ],
+            "wrathos-bundle-codecs": [
+                ("org.videolan.VLC", "VLC"),
+            ],
+        }
+
+        flatpak_available = subprocess.run(
+            ["which", "flatpak"],
+            capture_output=True
+        ).returncode == 0
+
+        if flatpak_available:
+            self.set_progress(0.8, "Installing Flatpak apps...")
+            for bundle in selected:
+                apps = flatpak_map.get(bundle["id"], [])
+                for app_id, app_name in apps:
+                    self.log(f"→ Installing {app_name} (Flatpak)...")
+                    try:
+                        r = subprocess.run(
+                            ["flatpak", "install", "-y",
+                             "--noninteractive",
+                             "flathub", app_id],
+                            capture_output=True,
+                            text=True,
+                            timeout=300
+                        )
+                        if r.returncode == 0:
+                            self.log(f"✓ {app_name} installed.")
+                        else:
+                            self.log(f"✗ {app_name} failed: {r.stderr[:200]}")
+                    except Exception as e:
+                        self.log(f"✗ {app_name} error: {e}")
 
         self.set_progress(1.0, "Installation complete.")
         self.log("\n✓ All done! Enjoy WrathOS.")
@@ -390,7 +449,7 @@ class WrathOSConfigurator(Adw.Application):
         done_label.add_css_class("done-label")
         done_box.append(done_label)
 
-        sub = Gtk.Label(label="Your gaming bundles have been installed.")
+        sub = Gtk.Label(label="Your selected bundles have been installed.")
         sub.add_css_class("wrathos-hint")
         done_box.append(sub)
 
@@ -477,13 +536,13 @@ class WrathOSConfigurator(Adw.Application):
         box.append(done)
 
         sub = Gtk.Label(
-            label="Welcome to WrathOS.\nForging ahead reliably, Gaming at the edge."
+            label="WrathOS Setup.\nForging ahead reliably, Gaming at the edge."
         )
         sub.add_css_class("wrathos-hint")
         sub.set_justify(Gtk.Justification.CENTER)
         box.append(sub)
 
-        close_btn = Gtk.Button(label="Start Gaming")
+        close_btn = Gtk.Button(label="Get Started")
         close_btn.add_css_class("install-btn")
         close_btn.set_margin_top(24)
         close_btn.connect("clicked", lambda b: self.win.close())

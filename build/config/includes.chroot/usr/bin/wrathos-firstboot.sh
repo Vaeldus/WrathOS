@@ -64,13 +64,13 @@ KDEEOF
 cat > "${REAL_HOME}/Desktop/wrathos-setup.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
-Name=WrathOS Gaming Setup
+Name=WrathOS Setup
 Exec=wrathos-configurator
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
-Keywords=gaming;setup;bundles;
-Comment=Configure your WrathOS gaming bundles
+Keywords=setup;bundles;configuration;
+Comment=Configure your WrathOS installation
 DESKEOF
 
 chmod +x "${REAL_HOME}/Desktop/wrathos-setup.desktop"
@@ -86,13 +86,13 @@ chown -R "${REAL_USER}:${REAL_USER}" \
 cat > /usr/share/applications/wrathos-configurator.desktop << 'DESKEOF'
 [Desktop Entry]
 Type=Application
-Name=WrathOS Gaming Setup
+Name=WrathOS Setup
 Exec=wrathos-configurator
 Icon=/etc/calamares/branding/wrathos/logo.png
 Terminal=false
 Categories=System;Settings;
-Keywords=gaming;setup;bundles;
-Comment=Configure your WrathOS gaming bundles
+Keywords=setup;bundles;configuration;
+Comment=Configure your WrathOS installation
 DESKEOF
 
 touch /var/lib/wrathos-firstboot-done
