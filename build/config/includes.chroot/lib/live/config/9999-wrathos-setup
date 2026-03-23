@@ -4,20 +4,26 @@ LIVE_USER="user"
 LIVE_HOME="/home/${LIVE_USER}"
 
 mkdir -p "${LIVE_HOME}/.config"
+mkdir -p "${LIVE_HOME}/.config/autostart"
 
 cat > "${LIVE_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
 [General]
 ShouldShow=false
 KDEEOF
 
-cat > "${LIVE_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
-[Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
-
 cat > "${LIVE_HOME}/.config/kiorc" << 'KDEEOF'
 [Executable scripts]
 behaviourOnLaunch=execute
 KDEEOF
+
+cat > "${LIVE_HOME}/.config/autostart/wrathos-wallpaper.desktop" << 'DESKEOF'
+[Desktop Entry]
+Type=Application
+Name=WrathOS Wallpaper Setup
+Exec=/usr/bin/wrathos-set-wallpaper.sh
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+DESKEOF
 
 chown -R "${LIVE_USER}:${LIVE_USER}" "${LIVE_HOME}/.config"
