@@ -13,18 +13,45 @@ X-KDE-PluginInfo-Name=WrathOS
 defaultImage=wrathos-default.png
 METAEOF
 
-# Plasma system-wide default
-mkdir -p /usr/share/plasma/shells/org.kde.plasma.desktop/contents
-cat > /usr/share/plasma/shells/org.kde.plasma.desktop/contents/defaults << 'KDEEOF'
+# Set wallpaper in plasma defaults WITHOUT overwriting the containment setting
+DEFAULTS="/usr/share/plasma/shells/org.kde.plasma.desktop/contents/defaults"
+if [ -f "$DEFAULTS" ]; then
+    # Only add wallpaper if not already set
+    if ! grep -q "^\[Wallpaper\]" "$DEFAULTS"; then
+        cat >> "$DEFAULTS" << 'KDEEOF'
+
 [Wallpaper]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
 KDEEOF
+    else
+        # Update existing wallpaper line
+        sed -i 's|^Image=.*|Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png|' "$DEFAULTS"
+    fi
+else
+    # Create the file with both containment and wallpaper
+    cat > "$DEFAULTS" << 'KDEEOF'
+[Desktop]
+Containment=org.kde.plasma.folder
 
-# Skel config
-mkdir -p /etc/skel/.config
-cat > /etc/skel/.config/plasma-org.kde.plasma.desktop-appletsrc << 'KDEEOF'
-[Containments][1][Wallpaper][org.kde.image][General]
+ToolBox=
+
+RuntimePlatform=Desktop
+
+[Desktop][ContainmentActions]
+RightButton;NoModifier=org.kde.contextmenu
+MiddleButton;NoModifier=org.kde.paste
+
+[Panel]
+Containment=org.kde.panel
+
+ToolBox=org.kde.paneltoolbox
+
+[Panel][ContainmentActions]
+RightButton;NoModifier=org.kde.contextmenu
+
+[Wallpaper]
 Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
 KDEEOF
+fi
 
 echo "WrathOS wallpaper configured."
