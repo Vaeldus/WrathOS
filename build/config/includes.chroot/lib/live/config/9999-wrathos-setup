@@ -13,6 +13,9 @@ done
 mkdir -p "${LIVE_HOME}/.config"
 mkdir -p "${LIVE_HOME}/.config/autostart"
 
+# Only write configs that skel may not have copied correctly
+# Do NOT overwrite plasma-org.kde.plasma.desktop-appletsrc - skel handles that
+
 cat > "${LIVE_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
 [General]
 ShouldShow=false
@@ -23,30 +26,11 @@ cat > "${LIVE_HOME}/.config/kiorc" << 'KDEEOF'
 behaviourOnLaunch=execute
 KDEEOF
 
-# Set folder view containment using kwriteconfig6
-sudo -u "$LIVE_USER" DBUS_SESSION_BUS_ADDRESS="" \
-    kwriteconfig6 \
-    --file plasma-org.kde.plasma.desktop-appletsrc \
-    --group "Containments][1][General" \
-    --key "plugin" \
-    --type string "org.kde.plasma.folder" 2>/dev/null || true
-
 cat > "${LIVE_HOME}/.config/autostart/wrathos-wallpaper.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
 Name=WrathOS Wallpaper Setup
 Exec=/usr/bin/wrathos-set-wallpaper.sh
-Hidden=false
-NoDisplay=true
-X-GNOME-Autostart-enabled=true
-DESKEOF
-
-# Restart plasmashell after KDE starts to apply folder view
-cat > "${LIVE_HOME}/.config/autostart/wrathos-plasma-restart.desktop" << 'DESKEOF'
-[Desktop Entry]
-Type=Application
-Name=WrathOS Plasma Init
-Exec=bash -c "sleep 5 && kwriteconfig6 --file plasma-org.kde.plasma.desktop-appletsrc --group 'Containments][1][General' --key plugin --type string org.kde.plasma.folder && plasmashell --replace > /dev/null 2>&1 &"
 Hidden=false
 NoDisplay=true
 X-GNOME-Autostart-enabled=true
