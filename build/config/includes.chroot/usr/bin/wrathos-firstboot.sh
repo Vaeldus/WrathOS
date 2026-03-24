@@ -1,18 +1,20 @@
 #!/bin/bash
 set -e
 
+# Don't run in live environment
 if grep -q "boot=live" /proc/cmdline; then
-    echo "Live environment detected, skipping firstboot setup."
     exit 0
 fi
 
-REAL_USER=$(getent passwd | awk -F: '$3 >= 1000 && $3 < 65534 {print $1}' | head -1)
-REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
-
-if [ -z "$REAL_USER" ]; then
-    echo "No real user found, exiting."
+# Don't run if already completed
+if [ -f "/var/lib/wrathos-firstboot-done" ]; then
+    # Remove our autostart so we never run again
+    rm -f "${HOME}/.config/autostart/wrathos-firstboot.desktop"
     exit 0
 fi
+
+REAL_USER=$(whoami)
+REAL_HOME="${HOME}"
 
 echo "Setting up WrathOS for user: $REAL_USER"
 
@@ -20,6 +22,7 @@ mkdir -p "${REAL_HOME}/.config/autostart"
 mkdir -p "${REAL_HOME}/Desktop"
 mkdir -p "${REAL_HOME}/.local/share/applications"
 
+# Configurator autostart
 cat > "${REAL_HOME}/.config/autostart/wrathos-configurator.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -31,6 +34,7 @@ X-GNOME-Autostart-enabled=true
 X-KDE-autostart-phase=2
 DESKEOF
 
+# Wallpaper autostart
 cat > "${REAL_HOME}/.config/autostart/wrathos-wallpaper.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -41,11 +45,7 @@ NoDisplay=true
 X-GNOME-Autostart-enabled=true
 DESKEOF
 
-cat > "${REAL_HOME}/.config/plasma-org.kde.plasma.desktop-appletsrc" << 'KDEEOF'
-[Containments][1][Wallpaper][org.kde.image][General]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
-
+# Wallpaper config
 cat > "${REAL_HOME}/.config/plasma-welcomescreen.conf" << 'KDEEOF'
 [General]
 ShouldShow=false
@@ -56,11 +56,7 @@ cat > "${REAL_HOME}/.config/kiorc" << 'KDEEOF'
 behaviourOnLaunch=execute
 KDEEOF
 
-cat > "${REAL_HOME}/.config/ksmserverrc" << 'KDEEOF'
-[General]
-loginMode=default
-KDEEOF
-
+# Desktop icon
 cat > "${REAL_HOME}/Desktop/wrathos-setup.desktop" << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -72,17 +68,12 @@ Categories=System;Settings;
 Keywords=setup;bundles;configuration;
 Comment=Configure your WrathOS installation
 DESKEOF
-
 chmod +x "${REAL_HOME}/Desktop/wrathos-setup.desktop"
 
 cp "${REAL_HOME}/Desktop/wrathos-setup.desktop" \
    "${REAL_HOME}/.local/share/applications/wrathos-setup.desktop"
 
-chown -R "${REAL_USER}:${REAL_USER}" \
-    "${REAL_HOME}/.config" \
-    "${REAL_HOME}/Desktop" \
-    "${REAL_HOME}/.local"
-
+# App menu entry
 cat > /usr/share/applications/wrathos-configurator.desktop << 'DESKEOF'
 [Desktop Entry]
 Type=Application
@@ -95,5 +86,11 @@ Keywords=setup;bundles;configuration;
 Comment=Configure your WrathOS installation
 DESKEOF
 
-touch /var/lib/wrathos-firstboot-done
+# Mark as done
+sudo touch /var/lib/wrathos-firstboot-done 2>/dev/null || \
+    touch /var/lib/wrathos-firstboot-done
+
+# Remove this autostart so it never runs again
+rm -f "${REAL_HOME}/.config/autostart/wrathos-firstboot.desktop"
+
 echo "WrathOS first boot setup complete for $REAL_USER."

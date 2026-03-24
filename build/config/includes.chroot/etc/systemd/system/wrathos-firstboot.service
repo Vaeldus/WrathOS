@@ -1,6 +1,6 @@
 [Unit]
 Description=WrathOS First Boot Setup
-After=network.target
+After=multi-user.target
 ConditionPathExists=!/var/lib/wrathos-firstboot-done
 
 [Service]
