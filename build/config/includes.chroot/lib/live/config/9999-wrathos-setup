@@ -34,3 +34,5 @@ X-GNOME-Autostart-enabled=true
 DESKEOF
 
 chown -R "${LIVE_USER}:${LIVE_USER}" "${LIVE_HOME}/.config"
+# Remove setup icon from live desktop - only needed on installed system
+rm -f "${LIVE_HOME}/Desktop/wrathos-setup.desktop" 2>/dev/null || true

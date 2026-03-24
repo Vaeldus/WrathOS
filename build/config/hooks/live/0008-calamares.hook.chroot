@@ -20,4 +20,17 @@ mkdir -p /etc/skel/Desktop
 cp /usr/share/applications/calamares.desktop /etc/skel/Desktop/
 chmod +x /etc/skel/Desktop/calamares.desktop
 
+cat > /etc/skel/Desktop/wrathos-setup.desktop << 'DESKEOF'
+[Desktop Entry]
+Type=Application
+Name=WrathOS Setup
+Exec=wrathos-configurator
+Icon=/etc/calamares/branding/wrathos/logo.png
+Terminal=false
+Categories=System;Settings;
+Keywords=setup;bundles;configuration;
+Comment=Configure your WrathOS installation
+DESKEOF
+chmod +x /etc/skel/Desktop/wrathos-setup.desktop
+
 echo "Calamares configured successfully."

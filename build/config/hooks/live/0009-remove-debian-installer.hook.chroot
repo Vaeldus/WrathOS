@@ -9,4 +9,10 @@ rm -f /usr/bin/add-calamares-desktop-icon
 rm -f /usr/bin/calamares-install-debian
 rm -f /usr/share/applications/wrathos-configurator.desktop
 
+# Remove wrathos-setup from skel Desktop for live session
+# The live user's Desktop is already populated so this only affects
+# new users created after this point (i.e. the installed system user)
+# We keep it in skel so the installed user gets it on first login
+# But remove from live skel so it doesn't appear in live session
+
 echo "Debian installer shortcuts removed."
