@@ -11,44 +11,56 @@ import sys
 
 BUNDLES = [
     {
-        "id": "wrathos-bundle-gpu",
+        "id": "gpu",
+        "packages": ["mesa-vulkan-drivers", "libvulkan1", "vulkan-tools"],
+        "flatpak": [],
         "name": "GPU Drivers",
-        "desc": "AMD · NVIDIA · Intel · Vulkan ICD · 32-bit Mesa",
+        "desc": "Mesa Vulkan drivers for AMD and Intel GPUs",
         "recommended": True,
         "default": True,
     },
     {
-        "id": "wrathos-bundle-steam",
+        "id": "steam",
+        "packages": ["flatpak", "libvulkan1"],
+        "flatpak": [("com.valvesoftware.Steam", "Steam")],
         "name": "Steam",
-        "desc": "Steam (Flatpak) · Proton-GE · DXVK · VKD3D",
+        "desc": "Steam via Flatpak · Vulkan libraries",
         "recommended": True,
         "default": True,
     },
     {
-        "id": "wrathos-bundle-perf",
+        "id": "perf",
+        "packages": ["gamemode", "mangohud"],
+        "flatpak": [],
         "name": "Performance Tools",
-        "desc": "GameMode · MangoHud · Gamescope · CoreCtrl",
+        "desc": "GameMode · MangoHud",
         "recommended": True,
         "default": True,
     },
     {
-        "id": "wrathos-bundle-codecs",
+        "id": "codecs",
+        "packages": ["ffmpeg", "gstreamer1.0-plugins-good", "gstreamer1.0-plugins-bad", "gstreamer1.0-plugins-ugly", "gstreamer1.0-libav", "flatpak"],
+        "flatpak": [("org.videolan.VLC", "VLC")],
         "name": "Media Codecs",
-        "desc": "VLC · FFmpeg · GStreamer · H.264 · H.265 · AAC",
+        "desc": "FFmpeg · GStreamer · VLC",
         "recommended": True,
         "default": True,
     },
     {
-        "id": "wrathos-bundle-launchers",
+        "id": "launchers",
+        "packages": ["lutris", "flatpak"],
+        "flatpak": [("com.heroicgameslauncher.hgl", "Heroic"), ("com.usebottles.bottles", "Bottles")],
         "name": "Launchers",
-        "desc": "Heroic · Lutris · Bottles · Epic · GOG",
+        "desc": "Lutris · Heroic · Bottles",
         "recommended": False,
         "default": False,
     },
     {
-        "id": "wrathos-bundle-emulation",
+        "id": "emulation",
+        "packages": ["dolphin-emu", "flatpak"],
+        "flatpak": [("org.libretro.RetroArch", "RetroArch")],
         "name": "Emulation",
-        "desc": "RetroArch · EmulationStation-DE · Dolphin · RPCS3",
+        "desc": "Dolphin · RetroArch",
         "recommended": False,
         "default": False,
     },
@@ -353,17 +365,21 @@ class WrathOSConfigurator(Adw.Application):
         return False
 
     def run_installs(self, selected):
-        bundle_ids = [b["id"] for b in selected]
         bundle_names = [b["name"] for b in selected]
+        all_packages = []
+        for b in selected:
+            all_packages.extend(b.get("packages", []))
+        # Deduplicate
+        all_packages = list(dict.fromkeys(all_packages))
 
         self.set_progress(0.1, "Authenticating...")
         self.log(f"→ Installing: {', '.join(bundle_names)}")
         self.log("Please authenticate when prompted...")
 
-        # Single pkexec call for all bundles at once
+        # Single pkexec call for all packages at once
         try:
             result = subprocess.run(
-                ["pkexec", "apt-get", "install", "-y"] + bundle_ids,
+                ["pkexec", "apt-get", "install", "-y"] + all_packages,
                 capture_output=True,
                 text=True,
                 timeout=600
@@ -387,33 +403,22 @@ class WrathOSConfigurator(Adw.Application):
             GLib.idle_add(self.build_done_view)
             return
 
-        # Install Flatpak apps for relevant bundles
-        flatpak_map = {
-            "wrathos-bundle-steam": [
-                ("com.valvesoftware.Steam", "Steam"),
-            ],
-            "wrathos-bundle-launchers": [
-                ("com.heroicgameslauncher.hgl", "Heroic"),
-                ("com.usebottles.bottles", "Bottles"),
-            ],
-            "wrathos-bundle-emulation": [
-                ("org.libretro.RetroArch", "RetroArch"),
-            ],
-            "wrathos-bundle-codecs": [
-                ("org.videolan.VLC", "VLC"),
-            ],
-        }
-
+        # Install Flatpak apps
         flatpak_available = subprocess.run(
             ["which", "flatpak"],
             capture_output=True
         ).returncode == 0
 
         if flatpak_available:
+            # Add Flathub remote if not present
+            subprocess.run(
+                ["flatpak", "remote-add", "--if-not-exists",
+                 "flathub", "https://flathub.org/repo/flathub.flatpakrepo"],
+                capture_output=True
+            )
             self.set_progress(0.8, "Installing Flatpak apps...")
             for bundle in selected:
-                apps = flatpak_map.get(bundle["id"], [])
-                for app_id, app_name in apps:
+                for app_id, app_name in bundle.get("flatpak", []):
                     self.log(f"→ Installing {app_name} (Flatpak)...")
                     try:
                         r = subprocess.run(
