@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+echo "Setting up Flatpak..."
+
+apt-get install -y flatpak xdg-desktop-portal-kde 2>/dev/null || true
+
+# Pre-configure Flathub for all users
+flatpak remote-add --if-not-exists --system flathub \
+    https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
+
+echo "Flatpak configured."
