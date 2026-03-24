@@ -82,3 +82,7 @@ gir1.2-gtk-4.0
 gir1.2-adw-1
 libadwaita-1-0
 polkit-kde-agent-1
+
+# Flatpak desktop integration
+xdg-desktop-portal-kde
+xdg-desktop-portal
