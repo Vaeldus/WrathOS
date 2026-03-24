@@ -367,33 +367,46 @@ class WrathOSConfigurator(Adw.Application):
     def run_installs(self, selected):
         bundle_names = [b["name"] for b in selected]
         all_packages = []
+        flatpak_apps = []
         for b in selected:
             all_packages.extend(b.get("packages", []))
-        # Deduplicate
+            flatpak_apps.extend(b.get("flatpak", []))
         all_packages = list(dict.fromkeys(all_packages))
 
-        self.set_progress(0.1, "Authenticating...")
+        self.set_progress(0.1, "Preparing installation...")
         self.log(f"→ Installing: {', '.join(bundle_names)}")
         self.log("Please authenticate when prompted...")
 
-        # Single pkexec call for all packages at once
+        # Write a single install script
+        import os
+        script = "/tmp/wrathos-install.sh"
+        with open(script, 'w') as f:
+            f.write("#!/bin/bash\nset -e\n")
+            if all_packages:
+                f.write(f"apt-get install -y {' '.join(all_packages)}\n")
+            if flatpak_apps:
+                f.write("flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo\n")
+                for app_id, app_name in flatpak_apps:
+                    f.write(f"flatpak install -y --noninteractive --system flathub {app_id}\n")
+        os.chmod(script, 0o755)
+
         try:
             result = subprocess.run(
-                ["pkexec", "apt-get", "install", "-y"] + all_packages,
+                ["pkexec", "bash", script],
                 capture_output=True,
                 text=True,
-                timeout=600
+                timeout=900
             )
             if result.returncode == 0:
-                self.set_progress(0.7, "Packages installed...")
-                self.log("✓ Packages installed successfully.")
+                self.set_progress(0.9, "Installation complete...")
+                self.log("✓ All packages installed successfully.")
             else:
                 self.log(f"✗ Installation failed:\n{result.stderr[:400]}")
                 self.set_progress(1.0, "Installation failed.")
                 GLib.idle_add(self.build_done_view)
                 return
         except subprocess.TimeoutExpired:
-            self.log("✗ Installation timed out after 10 minutes.")
+            self.log("✗ Installation timed out after 15 minutes.")
             self.set_progress(1.0, "Timed out.")
             GLib.idle_add(self.build_done_view)
             return
@@ -403,41 +416,8 @@ class WrathOSConfigurator(Adw.Application):
             GLib.idle_add(self.build_done_view)
             return
 
-        # Install Flatpak apps
-        flatpak_available = subprocess.run(
-            ["which", "flatpak"],
-            capture_output=True
-        ).returncode == 0
-
-        if flatpak_available:
-            # Add Flathub remote if not present
-            subprocess.run(
-                ["flatpak", "remote-add", "--if-not-exists",
-                 "flathub", "https://flathub.org/repo/flathub.flatpakrepo"],
-                capture_output=True
-            )
-            self.set_progress(0.8, "Installing Flatpak apps...")
-            for bundle in selected:
-                for app_id, app_name in bundle.get("flatpak", []):
-                    self.log(f"→ Installing {app_name} (Flatpak)...")
-                    try:
-                        r = subprocess.run(
-                            ["flatpak", "install", "-y",
-                             "--noninteractive",
-                             "flathub", app_id],
-                            capture_output=True,
-                            text=True,
-                            timeout=300
-                        )
-                        if r.returncode == 0:
-                            self.log(f"✓ {app_name} installed.")
-                        else:
-                            self.log(f"✗ {app_name} failed: {r.stderr[:200]}")
-                    except Exception as e:
-                        self.log(f"✗ {app_name} error: {e}")
-
         self.set_progress(1.0, "Installation complete.")
-        self.log("\n✓ All done! Enjoy WrathOS.")
+        self.log("\n✓ All done!")
         GLib.idle_add(self.build_done_view)
 
     def build_done_view(self):
