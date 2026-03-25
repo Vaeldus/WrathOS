@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=WrathOS First Boot
-Exec=/usr/bin/wrathos-firstboot.sh
-Hidden=false
-NoDisplay=true
-X-GNOME-Autostart-enabled=true
-X-KDE-autostart-phase=2

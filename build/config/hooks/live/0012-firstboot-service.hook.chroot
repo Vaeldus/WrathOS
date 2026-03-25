@@ -2,7 +2,6 @@
 set -e
 
 echo "Enabling WrathOS first boot service..."
-
 systemctl enable wrathos-firstboot.service
 
 echo "First boot service enabled."

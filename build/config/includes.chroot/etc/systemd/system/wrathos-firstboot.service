@@ -5,7 +5,7 @@ ConditionPathExists=!/var/lib/wrathos-firstboot-done
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/wrathos-firstboot.sh
+ExecStart=/usr/bin/wrathos-firstboot-system.sh
 RemainAfterExit=yes
 
 [Install]
