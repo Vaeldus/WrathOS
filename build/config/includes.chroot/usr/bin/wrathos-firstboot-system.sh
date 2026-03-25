@@ -77,6 +77,3 @@ chown -R "${REAL_USER}:${REAL_USER}" \
 
 touch /var/lib/wrathos-firstboot-done
 
-# Reboot to apply all changes cleanly
-sleep 3
-systemctl reboot
