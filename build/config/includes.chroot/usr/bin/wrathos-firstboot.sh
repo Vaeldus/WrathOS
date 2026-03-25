@@ -86,9 +86,14 @@ Keywords=setup;bundles;configuration;
 Comment=Configure your WrathOS installation
 DESKEOF
 
+# Launch configurator immediately in this session
+wrathos-configurator &
+
+# Apply wallpaper immediately in this session
+/usr/bin/wrathos-set-wallpaper.sh &
+
 # Mark as done
-sudo touch /var/lib/wrathos-firstboot-done 2>/dev/null || \
-    touch /var/lib/wrathos-firstboot-done
+sudo touch /var/lib/wrathos-firstboot-done 2>/dev/null ||     touch /var/lib/wrathos-firstboot-done
 
 # Remove this autostart so it never runs again
 rm -f "${REAL_HOME}/.config/autostart/wrathos-firstboot.desktop"
