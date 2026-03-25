@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Never run in live environment
+if grep -q "boot=live" /proc/cmdline; then
+    exit 0
+fi
+
 # Find the real user
 REAL_USER=$(getent passwd | awk -F: '$3 >= 1000 && $3 < 65534 {print $1}' | head -1)
 REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
