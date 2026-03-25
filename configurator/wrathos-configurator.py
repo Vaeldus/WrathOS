@@ -66,6 +66,20 @@ BUNDLES = [
     },
 ]
 
+INSTALLED_FILE = os.path.expanduser("~/.wrathos-bundles-installed")
+
+def get_installed_bundles():
+    if not os.path.exists(INSTALLED_FILE):
+        return set()
+    with open(INSTALLED_FILE) as f:
+        return set(line.strip() for line in f if line.strip())
+
+def mark_installed(bundle_ids):
+    installed = get_installed_bundles()
+    installed.update(bundle_ids)
+    with open(INSTALLED_FILE, 'w') as f:
+        f.write('\n'.join(sorted(installed)) + '\n')
+
 AUTOSTART_FILE = os.path.expanduser(
     "~/.config/autostart/wrathos-configurator.desktop"
 )
@@ -245,12 +259,18 @@ class WrathOSConfigurator(Adw.Application):
         text_box.append(name_label)
         text_box.append(desc_label)
 
-        tag_label = Gtk.Label(
-            label="Recommended" if bundle["recommended"] else "Optional"
-        )
-        tag_label.add_css_class(
-            "bundle-tag-recommended" if bundle["recommended"] else "bundle-tag"
-        )
+        installed = bundle["id"] in get_installed_bundles()
+        if installed:
+            tag_text = "✓ Installed"
+            tag_class = "bundle-tag-recommended"
+        elif bundle["recommended"]:
+            tag_text = "Recommended"
+            tag_class = "bundle-tag-recommended"
+        else:
+            tag_text = "Optional"
+            tag_class = "bundle-tag"
+        tag_label = Gtk.Label(label=tag_text)
+        tag_label.add_css_class(tag_class)
         tag_label.set_valign(Gtk.Align.CENTER)
 
         inner.append(check)
@@ -400,6 +420,7 @@ class WrathOSConfigurator(Adw.Application):
             if result.returncode == 0:
                 self.set_progress(0.9, "Installation complete...")
                 self.log("✓ All packages installed successfully.")
+                mark_installed([b["id"] for b in selected])
             else:
                 self.log(f"✗ Installation failed:\n{result.stderr[:400]}")
                 self.set_progress(1.0, "Installation failed.")
