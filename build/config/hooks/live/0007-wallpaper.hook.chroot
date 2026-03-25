@@ -3,7 +3,7 @@ set -e
 
 echo "Setting WrathOS default wallpaper..."
 
-# Wallpaper metadata
+# Install our wallpaper metadata
 cat > /usr/share/wallpapers/WrathOS/metadata.desktop << 'METAEOF'
 [Desktop Entry]
 Name=WrathOS
@@ -13,45 +13,22 @@ X-KDE-PluginInfo-Name=WrathOS
 defaultImage=wrathos-default.png
 METAEOF
 
-# Set wallpaper in plasma defaults WITHOUT overwriting the containment setting
+# Replace the Next (default) wallpaper with ours at all resolutions
+NEXT_DIR="/usr/share/wallpapers/Next/contents/images"
+if [ -d "$NEXT_DIR" ]; then
+    for img in "$NEXT_DIR"/*.png "$NEXT_DIR"/*.jpg; do
+        [ -f "$img" ] && cp /usr/share/wallpapers/WrathOS/wrathos-default.png "$img" || true
+    done
+fi
+
+# Also set in plasma defaults
 DEFAULTS="/usr/share/plasma/shells/org.kde.plasma.desktop/contents/defaults"
 if [ -f "$DEFAULTS" ]; then
-    # Only add wallpaper if not already set
     if ! grep -q "^\[Wallpaper\]" "$DEFAULTS"; then
-        cat >> "$DEFAULTS" << 'KDEEOF'
-
-[Wallpaper]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
+        printf "\n[Wallpaper]\nImage=file:///usr/share/wallpapers/WrathOS/wrathos-default.png\n" >> "$DEFAULTS"
     else
-        # Update existing wallpaper line
         sed -i 's|^Image=.*|Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png|' "$DEFAULTS"
     fi
-else
-    # Create the file with both containment and wallpaper
-    cat > "$DEFAULTS" << 'KDEEOF'
-[Desktop]
-Containment=org.kde.plasma.folder
-
-ToolBox=
-
-RuntimePlatform=Desktop
-
-[Desktop][ContainmentActions]
-RightButton;NoModifier=org.kde.contextmenu
-MiddleButton;NoModifier=org.kde.paste
-
-[Panel]
-Containment=org.kde.panel
-
-ToolBox=org.kde.paneltoolbox
-
-[Panel][ContainmentActions]
-RightButton;NoModifier=org.kde.contextmenu
-
-[Wallpaper]
-Image=file:///usr/share/wallpapers/WrathOS/wrathos-default.png
-KDEEOF
 fi
 
 echo "WrathOS wallpaper configured."
