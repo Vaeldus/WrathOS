@@ -22,3 +22,8 @@
 - Plymouth + GRUB theme installed
 - Gaming bundle metapackages defined
 - First-boot service structure in place
+
+## Next batch fixes
+- Auto-reboot after Calamares install (finished.conf restartNowChecked: true)
+- Add Flathub remote to installed system via shellprocess.conf
+- Debug Steam/VLC not appearing in KDE menu after Flatpak install
