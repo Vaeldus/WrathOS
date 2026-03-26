@@ -401,13 +401,13 @@ class WrathOSConfigurator(Adw.Application):
         import os
         script = "/tmp/wrathos-install.sh"
         with open(script, 'w') as f:
-            f.write("#!/bin/bash\nset -e\n")
+            f.write("#!/bin/bash\n")
             if all_packages:
                 f.write(f"apt-get install -y {' '.join(all_packages)}\n")
             if flatpak_apps:
                 f.write("flatpak remote-add --if-not-exists --system flathub https://flathub.org/repo/flathub.flatpakrepo\n")
                 for app_id, app_name in flatpak_apps:
-                    f.write(f"flatpak install -y --noninteractive --system flathub {app_id}\n")
+                    f.write(f"flatpak install -y --noninteractive --system flathub {app_id} || FAILED=1\n")
         os.chmod(script, 0o755)
 
         self.log(f"→ Script written to {script}")
