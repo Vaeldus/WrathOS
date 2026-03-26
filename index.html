@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>WrathOS APT Repository</title></head>
+<body>
+<h1>WrathOS APT Repository</h1>
+<p>To add this repository:</p>
+<pre>
+curl -fsSL https://vaeldus.github.io/WrathOS/apt/wrathos-archive-keyring.gpg | sudo tee /etc/apt/trusted.gpg.d/wrathos.gpg
+echo "deb [signed-by=/etc/apt/trusted.gpg.d/wrathos.gpg] https://vaeldus.github.io/WrathOS/apt trixie main" | sudo tee /etc/apt/sources.list.d/wrathos.list
+sudo apt-get update
+</pre>
+</body>
+</html>

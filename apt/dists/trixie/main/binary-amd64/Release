@@ -1,0 +1,5 @@
+Component: main
+Origin: WrathOS
+Label: WrathOS
+Architecture: amd64
+Description: WrathOS APT Repository

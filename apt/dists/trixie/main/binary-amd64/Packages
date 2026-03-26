@@ -1,0 +1,184 @@
+Package: linux-headers-6.19.9-cachy
+Source: linux-upstream
+Version: 1
+Architecture: amd64
+Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
+Installed-Size: 57648
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-headers-6.19.9-cachy_1_amd64.deb
+Size: 9765916
+SHA256: ac13b5fae3022a2b4a382dfb7cc02e05c17c5d7866e8c758fb898184ab135ace
+SHA1: 278811bc41b5b78dc0c03c767639d893d5e9a934
+MD5sum: a39875eef8dc96ecd92ba2c3bc7bd966
+Description: Linux kernel headers for 6.19.9-cachy on amd64
+ This package provides kernel header files for 6.19.9-cachy on amd64
+ .
+ This is useful for people who need to build external modules
+
+Package: linux-image-6.19.9-cachy
+Source: linux-upstream
+Version: 1
+Architecture: amd64
+Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
+Installed-Size: 195770
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: kernel
+Filename: pool/main/l/linux-upstream/linux-image-6.19.9-cachy_1_amd64.deb
+Size: 179642440
+SHA256: 7cf886088bd556391b9165fc2936d252c9074617c3f2750ffd218ed8edf1cd34
+SHA1: f49fe5702268fbd70535f74eeb41ff9cc0f4063f
+MD5sum: d015a2e25442b7c546748861fcef6b47
+Description: Linux kernel, version 6.19.9-cachy
+ This package contains the Linux kernel, modules and corresponding other
+ files, version: 6.19.9-cachy.
+
+Package: linux-image-6.19.9-cachy-dbg
+Source: linux-upstream
+Version: 1
+Architecture: amd64
+Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
+Installed-Size: 6226653
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: debug
+Filename: pool/main/l/linux-upstream/linux-image-6.19.9-cachy-dbg_1_amd64.deb
+Size: 161580
+SHA256: 8f531a4f6faf47ea0963feb4e3415c5234781f76777622b9c337c92dd6d7467c
+SHA1: a7b59192949e7e51bc8261cee83205f094cfb4df
+MD5sum: a6e6c526a6a72570f1e7602871a46f5d
+Description: Linux kernel debugging symbols for 6.19.9-cachy
+ This package will come in handy if you need to debug the kernel. It provides
+ all the necessary debug symbols for the kernel and its modules.
+
+Package: linux-libc-dev
+Source: linux-upstream
+Version: 1
+Architecture: amd64
+Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
+Installed-Size: 7647
+Provides: linux-kernel-headers
+Multi-Arch: same
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: devel
+Filename: pool/main/l/linux-upstream/linux-libc-dev_1_amd64.deb
+Size: 1482084
+SHA256: 6170c0f65049afdf1a93e2294ff59d95617ef12cc1f37409fa5459e38b1986ec
+SHA1: dfbc5ddaf515b2c1bf486bea0ec1e7546bf84ee1
+MD5sum: 54c7828ab99fdf76aaa9da09b053181f
+Description: Linux support headers for userspace development
+ This package provides userspaces headers from the Linux kernel.  These headers
+ are used by the installed headers for GNU glibc and other system libraries.
+
+Package: wrathos-base
+Version: 1.0
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: linux-image-6.19.9-cachy, linux-headers-6.19.9-cachy
+Conflicts: linux-image-amd64, linux-image-generic
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-base/wrathos-base_1.0_amd64.deb
+Size: 3988
+SHA256: a6f69bee590b38cae48cd24cffb0247ac59bca6f2d7a4624611a00b6dc259d4d
+SHA1: afbc5ce94400da10b0a8f07537a2e47e49757386
+MD5sum: 51904b80f0ba48f4dfd60ec2a68012e5
+Description: WrathOS base metapackage
+ Ensures the CachyOS kernel is installed and conflicts with
+ stock Debian kernel metapackages to prevent accidental replacement.
+
+Package: wrathos-bundle-codecs
+Version: 1.1
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base, ffmpeg, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly, gstreamer1.0-libav, flatpak
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-bundle-codecs/wrathos-bundle-codecs_1.1_amd64.deb
+Size: 984
+SHA256: f884da550609700f38b9384abc3dd7b3925368df0ae674f1dcd6a07b369d6d6b
+SHA1: 9d01b1e61f02a6739db52ab6344081515a69d78c
+MD5sum: 03eace23cf905f0826063dccbec985b6
+Description: WrathOS media codecs bundle
+ Installs FFmpeg and GStreamer plugins for media playback.
+
+Package: wrathos-bundle-emulation
+Version: 1.1
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base, dolphin-emu, flatpak
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-bundle-emulation/wrathos-bundle-emulation_1.1_amd64.deb
+Size: 1156
+SHA256: 3e284b651457840733268e42a722e5a60788ec7ea5d16a5b45d21c16bd2843a5
+SHA1: 61104ac0b9d182b27dbf289ba0316cbbd7e010f6
+MD5sum: 1671ec32f4b466440f925c9f64d2a09b
+Description: WrathOS emulation bundle
+ Installs Dolphin emulator and Flatpak for RetroArch.
+
+Package: wrathos-bundle-gpu
+Version: 1.1
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base, mesa-vulkan-drivers, libvulkan1, vulkan-tools
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-bundle-gpu/wrathos-bundle-gpu_1.1_amd64.deb
+Size: 1284
+SHA256: 72334ba439f50c9634c990ce627becf0cb0399b3a65026d3a4c5dd986d7029a6
+SHA1: 1c8cf614b77bcf696912646a430b5c80141ce99b
+MD5sum: 7ca35db7bcd4d72cf1bff467392cfe81
+Description: WrathOS GPU drivers bundle
+ Installs Mesa Vulkan drivers and tools for AMD and Intel GPUs.
+
+Package: wrathos-bundle-launchers
+Version: 1.1
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base, lutris, flatpak
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-bundle-launchers/wrathos-bundle-launchers_1.1_amd64.deb
+Size: 1092
+SHA256: df5657da3f91be40762711e7dc65c5cb6b3c182d261c50f8dcdfe541a2ecb59e
+SHA1: 1c6cf12374ecd366cb64290b46e06f729ee33574
+MD5sum: 6b011adbab0a01eda37242b8c2fd4055
+Description: WrathOS launchers bundle
+ Installs Lutris and Flatpak for Heroic and Bottles.
+
+Package: wrathos-bundle-perf
+Version: 1.1
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base, gamemode, mangohud
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-bundle-perf/wrathos-bundle-perf_1.1_amd64.deb
+Size: 1088
+SHA256: 33205257cc6fedd520dd7f19e928925421eb5df11b45bfc1a061365fcb0a9414
+SHA1: 6f9f339d5a042cdbfb40d12ab6ee20de3b2d4ffa
+MD5sum: efbaf60c5359fd00a6c8b7c91bbce78d
+Description: WrathOS performance tools bundle
+ Installs GameMode and MangoHud for performance
+ monitoring and optimization.
+
+Package: wrathos-bundle-steam
+Version: 1.1
+Architecture: amd64
+Maintainer: WrathOS Project <zxd@lunarys.org>
+Depends: wrathos-base, flatpak, libvulkan1
+Priority: optional
+Section: misc
+Filename: pool/main/w/wrathos-bundle-steam/wrathos-bundle-steam_1.1_amd64.deb
+Size: 1148
+SHA256: e1bc8424b31a9f9d8750580af86ed6d1fe319dc13272b3bd4d646750b32cd5ce
+SHA1: 5e922727478258448287b9ba23519713adb2d65a
+MD5sum: db8af5335aa2d35e908f87ad01841a94
+Description: WrathOS Steam bundle
+ Installs Flatpak and Vulkan libraries for Steam.
+ Steam itself is installed via Flatpak.
+

@@ -1,0 +1,38 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Origin: WrathOS
+Label: WrathOS
+Codename: trixie
+Date: Thu, 26 Mar 2026 20:41:31 UTC
+Architectures: amd64
+Components: main
+Description: WrathOS APT Repository
+MD5Sum:
+ 05af145bfad7889f9ed583d3396b7b20 6751 main/binary-amd64/Packages
+ ebee4335ee46d31d520aa955a951c6b9 2332 main/binary-amd64/Packages.gz
+ e3b8c82a11b54188c3e450dd328b6769 103 main/binary-amd64/Release
+SHA1:
+ a42e820649e157dc75d990390337ffb7988165ca 6751 main/binary-amd64/Packages
+ 16e96872fccfd068506cd33803efbea747b39731 2332 main/binary-amd64/Packages.gz
+ 1e2fb8bf8d1ee41f1255ac672483bc9e8d6ed197 103 main/binary-amd64/Release
+SHA256:
+ b89e57059e45b0372d8dabad817a86e334b61ee3c76875bd1bb3d8d0ea7d87c1 6751 main/binary-amd64/Packages
+ 70c4c80d5a2953ead39e29573ecd6e4a3fa7536c1104b2b1006a8bdb4d1eb2e0 2332 main/binary-amd64/Packages.gz
+ 81fa13ea8cfb2321027a16f4488a9ac5ffd3f9ab3b4c8b6c78e6f56982554acd 103 main/binary-amd64/Release
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE7/31Nzv2p7hB8/+LTyXZdBVmH8IFAmnFmfsACgkQTyXZdBVm
+H8IwIg/+KjrOC3eF3FsOP3RNNBDN7HBLeePPGlNwBPP8PXA1QFO+yhuYQAMKBSxs
+OuozeemmsPdKcvZVpW39sF7JX7ukruxUZLi8tHKWEwsXuORFdFU80l02cDJ43cCu
+Xhy+dpQ4bWt0kMuWt3Z+IgfOlf7tAgzdsgPDp5RB4fXf2UQn85Pj+B6ZX8OPE3gV
+qSjsXTF5TcS08ltV9dKqj25mmzhTBs9S/jxwqfBJWgdENFAQrxmSVYhICR25Gzar
+0tYhJ3GaAZxKRK2Me8AqYI3o64JOxaKFCUSaVbE/mf9nTwg5dARStqoAFMDzPvra
+az5SsZ6baSWIdY5i1WAG/GyJiTp62wgXBvTHJ60wYLUDNv5Dys/PIbtCen/9RSLK
+7rxZZ/PUcUweDpPHx2mTLI4vEQ7Ov96VMi2Sllpfoop1gFkPjZ9brEnIHF35AQ1x
+nRmERNL1JGwu+IZmhJM8jF1Lx+h8+EaMrsktxuMJO6c4JMntMpdblZOQICZVtkAe
+1HYHzJrjOBM4+iCCJUBk856OSUxMUaJEpqA/MiwpcUl4wg7yQtEANtJTSBB0lCYx
+w0C3Dcl7e+97iF7txA6jaUAXRvRk6f2YhWb9dhc2F8TNgc0HdDF5Q0Z5HJEedB/f
+XIj8knspwgftybhu9NBqhMgTV6rA6A2xxfrvMuz2KtUTjzNEFAg=
+=R1dy
+-----END PGP SIGNATURE-----
