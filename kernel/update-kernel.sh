@@ -98,6 +98,7 @@ step "Cleaning old kernel source from ${KERNEL_DIR}..."
 rm -f "${KERNEL_DIR}/cachyos-"*".tar.gz" || true
 rm -rf "${KERNEL_DIR}/cachyos-"*/ || true
 rm -f "${KERNEL_DIR}/0001-bore-cachy.patch" "${KERNEL_DIR}/dkms-clang.patch" || true
+    rm -f "${KERNEL_DIR}"/surface-*.patch || true
 
 # ── Step 7: Build new kernel ──────────────────────────────────────────────────
 step "Building kernel ${LATEST_VERSION}. This will take a while..."
