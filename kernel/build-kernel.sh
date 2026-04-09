@@ -8,8 +8,8 @@
 set -e  # Exit immediately if any command fails
 
 # ── Configuration ────────────────────────────────────────────────────────────
-KERNEL_VERSION="6.19.9"
-CACHY_TAG="cachyos-${KERNEL_VERSION}-1"
+KERNEL_VERSION="6.19.11"
+CACHY_TAG="cachyos-${KERNEL_VERSION}-2"
 LOCALVERSION="-cachy"
 DEB_VERSION="1"
 BUILD_DIR="${HOME}/wrathos/kernel"
@@ -45,7 +45,7 @@ else
 fi
 
 # ── Download patches ──────────────────────────────────────────────────────────
-PATCH_BASE="https://raw.githubusercontent.com/cachyos/kernel-patches/master/${KERNEL_VERSION}"
+PATCH_BASE="https://raw.githubusercontent.com/cachyos/kernel-patches/master/6.19"
 
 if [ ! -f "0001-bore-cachy.patch" ]; then
     info "Downloading BORE scheduler patch..."
