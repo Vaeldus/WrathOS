@@ -4,8 +4,8 @@ set -e
 echo "Installing CachyOS kernel from local packages..."
 
 # Install kernel directly from included .deb files
-dpkg -i /opt/wrathos-kernel/linux-image-6.19.9-cachy_1_amd64.deb
-dpkg -i /opt/wrathos-kernel/linux-headers-6.19.9-cachy_1_amd64.deb
+dpkg -i /opt/wrathos-kernel/linux-image-6.19.11-cachy_1_amd64.deb
+dpkg -i /opt/wrathos-kernel/linux-headers-6.19.11-cachy_1_amd64.deb
 
 # Fix any dependency issues
 apt-get install -f -y

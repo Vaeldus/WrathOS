@@ -8,7 +8,7 @@
 - **Tagline:** Forging ahead reliably, Gaming at the edge.
 - **Version:** v0.1-alpha
 - **Base:** Debian Trixie
-- **Kernel:** CachyOS 6.19.9-cachy (BORE scheduler, ThinLTO, FUTEX2)
+- **Kernel:** CachyOS 6.19.11-cachy (BORE scheduler, ThinLTO, FUTEX2)
 - **Desktop:** KDE Plasma 6.3 on Wayland, SDDM
 - **Installer:** Calamares 3.3.14
 - **GitHub:** https://github.com/Vaeldus/WrathOS
@@ -150,8 +150,8 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - **Key format:** Binary (not armored) — export with `gpg --export` not `gpg --armor --export`
 
 ### Repo Contents
-- `linux-image-6.19.9-cachy`
-- `linux-headers-6.19.9-cachy`
+- `linux-image-6.19.11-cachy`
+- `linux-headers-6.19.11-cachy`
 - `linux-libc-dev`
 - `wrathos-base`
 - `wrathos-bundle-*` (v1.1)
@@ -160,7 +160,7 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 
 ## Working State (v0.1-alpha)
 
-- ✅ CachyOS kernel 6.19.9-cachy boots
+- ✅ CachyOS kernel 6.19.11-cachy boots
 - ✅ KDE Plasma 6.3 on Wayland
 - ✅ WrathOS identity and branding throughout
 - ✅ GRUB EFI with WrathOS W logo
