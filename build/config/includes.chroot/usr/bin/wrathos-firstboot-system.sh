@@ -10,6 +10,12 @@ fi
 REAL_USER=$(getent passwd | awk -F: '$3 >= 1000 && $3 < 65534 {print $1}' | head -1)
 REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
 
+# Ensure WrathOS APT keyring is in place
+mkdir -p /etc/apt/keyrings
+if [ ! -f /etc/apt/keyrings/wrathos.gpg ]; then
+    curl -fsSL https://vaeldus.github.io/WrathOS/apt/wrathos-archive-keyring.gpg -o /etc/apt/keyrings/wrathos.gpg 2>/dev/null || true
+fi
+
 if [ -z "$REAL_USER" ]; then
     exit 0
 fi
