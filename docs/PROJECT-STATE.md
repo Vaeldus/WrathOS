@@ -150,8 +150,8 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - **Key format:** Binary (not armored) — export with `gpg --export` not `gpg --armor --export`
 
 ### Repo Contents
-- `linux-image-6.19.11-cachy`
-- `linux-headers-6.19.11-cachy`
+- `linux-image-7.0.0-cachy`
+- `linux-headers-7.0.0-cachy`
 - `linux-libc-dev`
 - `wrathos-base`
 - `wrathos-bundle-*` (v1.1)
@@ -186,3 +186,4 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - GitHub Actions CI pipeline for automated ISO builds not yet set up
 - No automated kernel update process — manual reprepro + gh release required
 - Configurator crashes on first launch in VMware (VMware graphics issue, not a real hardware bug)
+- linux-surface patches not yet available for kernel 7.0 — Surface device support pending linux-surface upstream update
