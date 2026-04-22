@@ -1,17 +1,25 @@
 #!/bin/bash
 set -e
-
 echo "Fixing live boot kernel filename..."
-
 cd live
-
 echo "Contents of live directory before fix:"
 ls -la
 
-# Copy instead of symlink so GRUB can find it
-cp vmlinuz-6.19.9-cachy vmlinuz-amd64
-cp initrd.img-6.19.9-cachy initrd.img-amd64
+# Dynamically find the cachy kernel
+VMLINUZ=$(ls vmlinuz-*-cachy 2>/dev/null | head -1)
+INITRD=$(ls initrd.img-*-cachy 2>/dev/null | head -1)
+
+if [ -z "$VMLINUZ" ] || [ -z "$INITRD" ]; then
+    echo "ERROR: Could not find cachy kernel files"
+    ls -la
+    exit 1
+fi
+
+echo "Found kernel: $VMLINUZ"
+echo "Found initrd: $INITRD"
+
+cp "$VMLINUZ" vmlinuz-amd64
+cp "$INITRD" initrd.img-amd64
 
 echo "Contents of live directory after fix:"
 ls -la
-
