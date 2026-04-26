@@ -150,8 +150,8 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - **Key format:** Binary (not armored) — export with `gpg --export` not `gpg --armor --export`
 
 ### Repo Contents
-- `linux-image-7.0.0-cachy`
-- `linux-headers-7.0.0-cachy`
+- `linux-image-7.0.1-cachy`
+- `linux-headers-7.0.1-cachy`
 - `linux-libc-dev`
 - `wrathos-base`
 - `wrathos-bundle-*` (v1.1)

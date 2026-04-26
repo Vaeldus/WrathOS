@@ -11,8 +11,8 @@
 set -e
 
 # ── Configuration ────────────────────────────────────────────────────────────
-KERNEL_VERSION="7.0.0"
-CACHY_TAG="cachyos-${KERNEL_VERSION}-2"
+KERNEL_VERSION="7.0.1"
+CACHY_TAG="cachyos-${KERNEL_VERSION}-3"
 LOCALVERSION="-cachy"
 DEB_VERSION="1"
 BUILD_DIR="${HOME}/wrathos/kernel"
