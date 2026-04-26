@@ -187,3 +187,10 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - No automated kernel update process — manual reprepro + gh release required
 - Configurator crashes on first launch in VMware (VMware graphics issue, not a real hardware bug)
 - linux-surface patches not yet available for kernel 7.0 — Surface device support pending linux-surface upstream update
+
+## APT Repository Infrastructure
+- **Index (dists/):** https://vaeldus.github.io/WrathOS/apt (gh-pages)
+- **Pool (packages):** https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev (Cloudflare R2)
+- **R2 Bucket:** wrathos-apt
+- **Keyring:** https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/wrathos-archive-keyring.gpg
+- **AWS endpoint:** https://31bb4fc1020217be8b33a39bcad88900.r2.cloudflarestorage.com
