@@ -135,9 +135,9 @@ info "APT repo updated."
 # ── Step 10: Sync to R2
 step "Syncing pool to R2..."
 aws s3 sync "${APT_REPO}/pool" s3://wrathos-apt/pool \
-    --endpoint-url https://31bb4fc1020217be8b33a39bcad88900.r2.cloudflarestorage.com
+    --endpoint-url "${R2_ENDPOINT}"
 aws s3 sync "${APT_REPO}/dists" s3://wrathos-apt/dists \
-    --endpoint-url https://31bb4fc1020217be8b33a39bcad88900.r2.cloudflarestorage.com
+    --endpoint-url "${R2_ENDPOINT}"
 info "R2 sync complete."
 
 # ── Step 10b: Sync to gh-pages ─────────────────────────────────────────────────

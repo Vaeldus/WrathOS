@@ -1,0 +1,42 @@
+name: Kernel Update Check
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 6am UTC
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  check-and-update:
+    runs-on: [self-hosted, Linux, X64, build-box]
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "WrathOS CI"
+          git config user.email "zxdsystems@gmail.com"
+
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+
+      - name: Configure AWS CLI for R2
+        run: |
+          aws configure set aws_access_key_id "${{ secrets.R2_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.R2_SECRET_ACCESS_KEY }}"
+          aws configure set region auto
+
+      - name: Sync NTP
+        run: sudo timedatectl set-ntp true
+
+      - name: Run kernel update script
+        run: |
+          cd $GITHUB_WORKSPACE
+          bash kernel/update-kernel.sh
+        env:
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
