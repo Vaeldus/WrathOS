@@ -13,7 +13,7 @@ REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
 # Ensure WrathOS APT keyring is in place
 mkdir -p /etc/apt/keyrings
 if [ ! -f /etc/apt/keyrings/wrathos.gpg ]; then
-    curl -fsSL https://vaeldus.github.io/WrathOS/apt/wrathos-archive-keyring.gpg -o /etc/apt/keyrings/wrathos.gpg 2>/dev/null || true
+    curl -fsSL https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/wrathos-archive-keyring.gpg -o /etc/apt/keyrings/wrathos.gpg 2>/dev/null || true
 fi
 
 if [ -z "$REAL_USER" ]; then
