@@ -108,7 +108,7 @@ info "Kernel build complete."
 
 # ── Step 8: Collect new debs ──────────────────────────────────────────────────
 step "Collecting built .deb packages..."
-NEW_DEBS=$(ls "${KERNEL_DIR}/linux-"*"-cachy"*"_amd64.deb" "${KERNEL_DIR}/linux-libc-dev_"*"_amd64.deb" 2>/dev/null)
+NEW_DEBS=$(ls "${KERNEL_DIR}/linux-"*"-cachy_"*"_amd64.deb" "${KERNEL_DIR}/linux-libc-dev_"*"_amd64.deb" 2>/dev/null | grep -v "-dbg_")
 
 if [ -z "${NEW_DEBS}" ]; then
     error "No .deb files found after build. Check ${KERNEL_DIR}/build.log"
@@ -131,6 +131,13 @@ for DEB in ${NEW_DEBS}; do
 done
 
 info "APT repo updated."
+
+# ── Step 9b: Remove old kernel versions from R2
+step "Removing old kernel versions from R2..."
+aws s3 ls s3://wrathos-apt/pool/main/l/linux-upstream/ --endpoint-url "${R2_ENDPOINT}" | awk "{print \$4}" | grep -v "${LATEST_VERSION}" | grep -v "libc" | while read f; do
+    aws s3 rm "s3://wrathos-apt/pool/main/l/linux-upstream/${f}" --endpoint-url "${R2_ENDPOINT}" || true
+done
+info "Old R2 versions removed."
 
 # ── Step 10: Sync to R2
 step "Syncing pool to R2..."
