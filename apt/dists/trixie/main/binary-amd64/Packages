@@ -144,3 +144,20 @@ Description: WrathOS Steam bundle
  Installs Flatpak and Vulkan libraries for Steam.
  Steam itself is installed via Flatpak.
 
+Package: wrathos-kernel
+Version: 7.0.1
+Architecture: amd64
+Maintainer: WrathOS <zxdsystems@gmail.com>
+Depends: linux-image-7.0.1-cachy, linux-headers-7.0.1-cachy
+Priority: optional
+Section: kernel
+Filename: pool/main/w/wrathos-kernel/wrathos-kernel_7.0.1_amd64.deb
+Size: 824
+SHA256: 98edd55ed18f6f1dad6b139478f3220258bc27e0ab7d6971d476a15e7a54f1f6
+SHA1: c6274d79e113651ef0a86ab2bbcf4da455faedc2
+MD5sum: 3eebd1bb3efaf3e4c147882043afca6e
+Description: WrathOS kernel meta-package
+ This meta-package ensures the correct CachyOS kernel version
+ is installed on WrathOS systems. Upgrading this package will
+ pull in the latest supported kernel.
+

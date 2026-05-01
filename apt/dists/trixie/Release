@@ -1,19 +1,19 @@
 Origin: WrathOS
 Label: WrathOS
 Codename: trixie
-Date: Fri, 01 May 2026 00:22:23 UTC
+Date: Fri, 01 May 2026 16:35:45 UTC
 Architectures: amd64
 Components: main
 Description: WrathOS APT Repository
 MD5Sum:
- a0767b95bc164366fcc1f7729c053537 5334 main/binary-amd64/Packages
- 0ab3d5e4a1efe1d15137b3f2f40fd826 1916 main/binary-amd64/Packages.gz
+ 89d69d11cbe680af9639f650f7ea5e26 5974 main/binary-amd64/Packages
+ d2c59b227ee39db23aa14af51dde6b13 2143 main/binary-amd64/Packages.gz
  e3b8c82a11b54188c3e450dd328b6769 103 main/binary-amd64/Release
 SHA1:
- ef1d7ceab32b7fbdadb9bd8a6bedceb97a90ba8d 5334 main/binary-amd64/Packages
- 683356b30d8b8ebe057ae1e81b198442b7a076d2 1916 main/binary-amd64/Packages.gz
+ e9c632e2508b8e898b8c46485111db2bff5716b3 5974 main/binary-amd64/Packages
+ aa73918fb3bb1b8f33bfaaf42d84baea09794502 2143 main/binary-amd64/Packages.gz
  1e2fb8bf8d1ee41f1255ac672483bc9e8d6ed197 103 main/binary-amd64/Release
 SHA256:
- 7ad46e1868d894b2da481180e29cd59836f34901168f3304f178c7357797b90f 5334 main/binary-amd64/Packages
- 2d71fe6fd0542dd75e45c165a93420dc6694421a5e6b3137c67912406f3c4f0a 1916 main/binary-amd64/Packages.gz
+ ad30cc172da6177712260585918d77b4a66542e685b59a61006402c52218cffc 5974 main/binary-amd64/Packages
+ a1c1a5a2e6a955f663fe14a494c038834e4d8aeffdff4c73742e1781d4db1ac9 2143 main/binary-amd64/Packages.gz
  81fa13ea8cfb2321027a16f4488a9ac5ffd3f9ab3b4c8b6c78e6f56982554acd 103 main/binary-amd64/Release
