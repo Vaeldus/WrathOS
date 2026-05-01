@@ -82,6 +82,10 @@ patch -Np1 < "${BUILD_DIR}/dkms-clang.patch"
 
 # ── Update config ─────────────────────────────────────────────────────────────
 info "Updating kernel config for ${KERNEL_VERSION}..."
+# Disable debug package
+scripts/config --disable DEBUG_INFO
+scripts/config --enable DEBUG_INFO_NONE
+
 make olddefconfig CC=clang LD=ld.lld LLVM=1 LLVM_IAS=1
 
 # ── Build ─────────────────────────────────────────────────────────────────────
