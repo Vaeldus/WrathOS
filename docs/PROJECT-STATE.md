@@ -194,3 +194,13 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - **R2 Bucket:** wrathos-apt
 - **Keyring:** https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/wrathos-archive-keyring.gpg
 - **AWS endpoint:** https://31bb4fc1020217be8b33a39bcad88900.r2.cloudflarestorage.com
+
+## Release History
+- **v0.1-alpha (2026-04-25):** Kernel 7.0.0-cachy, Cloudflare R2 APT hosting, CI pipeline with self-hosted runner
+  - ISO: https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-0.1-alpha-amd64-20260425.iso
+
+## CI Pipeline
+- Self-hosted GitHub Actions runner on build box
+- Weekly kernel update check (Mondays 6am UTC)
+- Automatic build, APT repo update, R2 sync, gh-pages sync
+- Manual trigger available via GitHub Actions UI
