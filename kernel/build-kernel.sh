@@ -11,8 +11,8 @@
 set -e
 
 # ── Configuration ────────────────────────────────────────────────────────────
-KERNEL_VERSION="7.0.1"
-CACHY_TAG="cachyos-${KERNEL_VERSION}-3"
+KERNEL_VERSION="7.0.3"
+CACHY_TAG="cachyos-${KERNEL_VERSION}-1"
 LOCALVERSION="-cachy"
 DEB_VERSION="1"
 BUILD_DIR="${HOME}/wrathos/kernel"
@@ -97,7 +97,7 @@ make -j"${JOBS}" bindeb-pkg \
     LLVM_IAS=1 \
     LOCALVERSION="${LOCALVERSION}" \
     KDEB_PKGVERSION="${DEB_VERSION}" \
-    GENERATE_DEBUG=0 \
+    KDEB_IMAGE_DEBUG=0 \
     2>&1 | tee "${BUILD_DIR}/build.log"
 
 # ── Done ──────────────────────────────────────────────────────────────────────
