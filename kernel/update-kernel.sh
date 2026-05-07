@@ -121,13 +121,13 @@ echo "${NEW_DEBS}"
 step "Updating APT repo..."
 
 for OLD_PKG in linux-image linux-headers linux-libc-dev linux-image-dbg; do
-    reprepro --ask-passphrase -b "${APT_REPO}" remove trixie "${OLD_PKG}-${CURRENT_VERSION}-cachy" 2>/dev/null || true
+    reprepro -b "${APT_REPO}" remove trixie "${OLD_PKG}-${CURRENT_VERSION}-cachy" 2>/dev/null || true
 done
-reprepro --ask-passphrase -b "${APT_REPO}" remove trixie linux-libc-dev 2>/dev/null || true
+reprepro -b "${APT_REPO}" remove trixie linux-libc-dev 2>/dev/null || true
 
 for DEB in ${NEW_DEBS}; do
     info "Adding $(basename ${DEB}) to reprepro..."
-    reprepro --ask-passphrase -b "${APT_REPO}" includedeb trixie "${DEB}"
+    reprepro -b "${APT_REPO}" includedeb trixie "${DEB}"
 done
 
 info "APT repo updated."
@@ -150,7 +150,6 @@ info "R2 sync complete."
 # ── Step 10b: Sync to gh-pages ─────────────────────────────────────────────────
 step "Syncing APT repo to gh-pages..."
 rsync -av --delete "${APT_REPO}/dists" "${GH_PAGES}/apt/"
-rsync -av --delete "${APT_REPO}/pool" "${GH_PAGES}/apt/"
 
 cd "${GH_PAGES}"
 git add -A
