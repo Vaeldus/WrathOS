@@ -280,9 +280,9 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 
 ## Known Issues / Open Items
 
-- CI workflow fails partway through publish step — needs investigation
-- Debug kernel package (`-dbg`) still being generated despite `DEBUG_INFO_NONE` config — needs fix
-- `update-kernel.sh` does not auto-bump `wrathos-kernel` meta-package — still manual
+- CI pipeline: reprepro --ask-passphrase removed, gh-pages pool sync removed ✅
+- Debug kernel deb suppressed via KDEB_IMAGE_DEBUG=0 ✅
+- `update-kernel.sh` auto-bumps wrathos-kernel meta-package ✅
 - linux-surface patches not yet available for kernel 7.0 — Surface device support pending linux-surface upstream update
 - Configurator crashes on first launch in VMware (VMware graphics issue, low priority)
 - ISO build not yet automated via CI
