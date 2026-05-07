@@ -1,39 +1,59 @@
-Package: linux-headers-7.0.1-cachy
+Package: linux-headers-7.0.3-cachy
 Source: linux-upstream
 Version: 1
 Architecture: amd64
 Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
-Installed-Size: 60284
+Installed-Size: 60288
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-headers-7.0.1-cachy_1_amd64.deb
-Size: 10464072
-SHA256: 4151589fc0daee479a6ccb16f578be240df8921770b4670612dfa79664d009fd
-SHA1: 90afa4c69324b94a6bdf494fccfccfb0c6a79490
-MD5sum: 93b4408f8f7e360c69168632b49ee548
-Description: Linux kernel headers for 7.0.1-cachy on amd64
- This package provides kernel header files for 7.0.1-cachy on amd64
+Filename: pool/main/l/linux-upstream/linux-headers-7.0.3-cachy_1_amd64.deb
+Size: 10465336
+SHA256: b987ee9e4fec89152934180d45eb61078d3fd427317c72f980ca1cdd1435cca6
+SHA1: 407606ceb9e7288dac8135d671e8ecb66ad477ad
+MD5sum: 4c1a5b3f90d083efc912d0bde9c08598
+Description: Linux kernel headers for 7.0.3-cachy on amd64
+ This package provides kernel header files for 7.0.3-cachy on amd64
  .
  This is useful for people who need to build external modules
 
-Package: linux-image-7.0.1-cachy
+Package: linux-image-7.0.3-cachy
 Source: linux-upstream
 Version: 1
 Architecture: amd64
 Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
-Installed-Size: 212324
+Installed-Size: 212323
 Homepage: https://www.kernel.org/
 Priority: optional
 Section: kernel
-Filename: pool/main/l/linux-upstream/linux-image-7.0.1-cachy_1_amd64.deb
-Size: 196622420
-SHA256: f35f45ba1257d16cffb7f7eb9cd8f49b362a73fd3dc110483b4bc8f2ea94ee60
-SHA1: 837ae2f4206dfc3af9c427cac134ab48c140b936
-MD5sum: 673df5b2abbd3812009658b902e23d96
-Description: Linux kernel, version 7.0.1-cachy
+Filename: pool/main/l/linux-upstream/linux-image-7.0.3-cachy_1_amd64.deb
+Size: 196632864
+SHA256: 5649331b1a0e21e3c2d68c83d60f6fedf24aef56c061392e10ed53c7e81b89f4
+SHA1: 28f0732ec575326ebb78f0446b12df0b7e8512c7
+MD5sum: a9086f887f09f76838cf437aff148f86
+Description: Linux kernel, version 7.0.3-cachy
  This package contains the Linux kernel, modules and corresponding other
- files, version: 7.0.1-cachy.
+ files, version: 7.0.3-cachy.
+
+Package: linux-libc-dev
+Source: linux-upstream
+Version: 1
+Architecture: amd64
+Maintainer: zxd <zxd@WrathOS-Build.lunarys.org>
+Installed-Size: 7692
+Provides: linux-kernel-headers
+Multi-Arch: same
+Homepage: https://www.kernel.org/
+Priority: optional
+Section: devel
+Filename: pool/main/l/linux-upstream/linux-libc-dev_1_amd64.deb
+Size: 1491112
+SHA256: 1f0e0a245614cc9e112695d8d3667b04799ddf73d1ded96ed130585e65507043
+SHA1: a28bc7eabe21c5bbeb61338c8dd2116f4e376d3b
+MD5sum: 19db8bc49bbdc3aae82051ed872e9a1f
+Description: Linux support headers for userspace development
+ This package provides userspaces headers from the Linux kernel.  These headers
+ are used by the installed headers for GNU glibc and other system libraries.
 
 Package: wrathos-base
 Version: 1.0
@@ -145,17 +165,17 @@ Description: WrathOS Steam bundle
  Steam itself is installed via Flatpak.
 
 Package: wrathos-kernel
-Version: 7.0.1
+Version: 7.0.3
 Architecture: amd64
 Maintainer: WrathOS <zxdsystems@gmail.com>
-Depends: linux-image-7.0.1-cachy, linux-headers-7.0.1-cachy
+Depends: linux-image-7.0.3-cachy, linux-headers-7.0.3-cachy
 Priority: optional
 Section: kernel
-Filename: pool/main/w/wrathos-kernel/wrathos-kernel_7.0.1_amd64.deb
-Size: 824
-SHA256: 98edd55ed18f6f1dad6b139478f3220258bc27e0ab7d6971d476a15e7a54f1f6
-SHA1: c6274d79e113651ef0a86ab2bbcf4da455faedc2
-MD5sum: 3eebd1bb3efaf3e4c147882043afca6e
+Filename: pool/main/w/wrathos-kernel/wrathos-kernel_7.0.3_amd64.deb
+Size: 820
+SHA256: 39cacca7b0791c5fac36647f9d37b465baf2b8d47b09678b2761b862ee24b8d5
+SHA1: 42131b6f5e4d8da393e4d77aac610bde529e7c7f
+MD5sum: e6b43476b98cdb0aefdaad23cbaddb82
 Description: WrathOS kernel meta-package
  This meta-package ensures the correct CachyOS kernel version
  is installed on WrathOS systems. Upgrading this package will
