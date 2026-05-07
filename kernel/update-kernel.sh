@@ -132,6 +132,27 @@ done
 
 info "APT repo updated."
 
+# ── Step 9c: Bump wrathos-kernel meta-package ────────────────────────────────
+step "Bumping wrathos-kernel meta-package to ${LATEST_VERSION}..."
+
+META_DIR="${HOME}/wrathos/meta-packages/wrathos-kernel"
+cat > "${META_DIR}/DEBIAN/control" << CTLEOF
+Package: wrathos-kernel
+Version: ${LATEST_VERSION}
+Architecture: amd64
+Maintainer: WrathOS <zxdsystems@gmail.com>
+Section: kernel
+Priority: optional
+Depends: linux-image-${LATEST_VERSION}-cachy, linux-headers-${LATEST_VERSION}-cachy
+Description: WrathOS kernel meta-package
+ This meta-package ensures the correct CachyOS kernel version is installed on WrathOS systems. Upgrading this package will pull in the latest supported kernel.
+CTLEOF
+
+dpkg-deb --build --root-owner-group "${META_DIR}" "${HOME}/wrathos/meta-packages/wrathos-kernel.deb"
+reprepro -b "${APT_REPO}" remove trixie wrathos-kernel 2>/dev/null || true
+reprepro -b "${APT_REPO}" includedeb trixie "${HOME}/wrathos/meta-packages/wrathos-kernel.deb"
+info "wrathos-kernel meta-package bumped to ${LATEST_VERSION}."
+
 # ── Step 9b: Remove old kernel versions from R2
 step "Removing old kernel versions from R2..."
 aws s3 ls s3://wrathos-apt/pool/main/l/linux-upstream/ --endpoint-url "${R2_ENDPOINT}" | awk "{print \$4}" | grep -v "${LATEST_VERSION}" | grep -v "libc" | while read f; do
