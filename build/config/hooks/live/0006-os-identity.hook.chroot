@@ -1,16 +1,27 @@
 #!/bin/bash
 set -e
-
 echo "Setting WrathOS system identity..."
 
 cat > /etc/lsb-release << 'LSBEOF'
 DISTRIB_ID=WrathOS
-DISTRIB_RELEASE=0.1
-DISTRIB_CODENAME=trixie
-DISTRIB_DESCRIPTION="WrathOS 0.1 (trixie)"
+DISTRIB_RELEASE=0.5
+DISTRIB_CODENAME=forge
+DISTRIB_DESCRIPTION="WrathOS 0.5 (Forge)"
 LSBEOF
 
-echo "wrathos/trixie" > /etc/debian_version
-echo "wrathos" > /etc/hostname
+cat > /etc/os-release << 'OSEOF'
+PRETTY_NAME="WrathOS 0.5 (Forge)"
+NAME="WrathOS"
+VERSION_ID="0.5"
+VERSION="0.5 (Forge)"
+VERSION_CODENAME=forge
+ID=wrathos
+ID_LIKE=debian
+HOME_URL="https://github.com/Vaeldus/WrathOS"
+SUPPORT_URL="https://github.com/Vaeldus/WrathOS/issues"
+BUG_REPORT_URL="https://github.com/Vaeldus/WrathOS/issues"
+OSEOF
+
+echo "wrathos/forge" > /etc/debian_version
 
 echo "WrathOS system identity configured."
