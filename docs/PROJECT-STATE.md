@@ -285,7 +285,7 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 - `update-kernel.sh` auto-bumps wrathos-kernel meta-package ✅
 - linux-surface patches not yet available for kernel 7.0 — Surface device support pending linux-surface upstream update
 - Configurator crashes on first launch in VMware (VMware graphics issue, low priority)
-- ISO build not yet automated via CI
+- ISO build automated via CI — triggers after successful kernel update ✅
 
 ---
 
