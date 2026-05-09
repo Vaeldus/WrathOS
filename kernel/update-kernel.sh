@@ -66,6 +66,7 @@ info "Currently published: ${CURRENT_VERSION}"
 # ── Step 3: Compare versions ──────────────────────────────────────────────────
 if [ "${CURRENT_VERSION}" = "${LATEST_VERSION}" ]; then
     info "Already up to date (${CURRENT_VERSION}). Nothing to do."
+    touch ${HOME}/.wrathos-kernel-no-update
     exit 0
 fi
 
@@ -210,6 +211,8 @@ git add docs/PROJECT-STATE.md kernel/build-kernel.sh
 git commit -m "kernel: bump to ${LATEST_VERSION}-cachy"
 git push origin main
 info "PROJECT-STATE.md updated and pushed."
+
+touch ${HOME}/.wrathos-kernel-updated
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 echo ""

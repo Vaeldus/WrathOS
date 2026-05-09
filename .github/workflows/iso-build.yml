@@ -1,0 +1,111 @@
+name: ISO Build
+
+on:
+  workflow_call:  # Called by kernel-update workflow after successful update
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build-iso:
+    runs-on: [self-hosted, Linux, X64, build-box]
+    timeout-minutes: 180
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "WrathOS CI"
+          git config user.email "zxdsystems@gmail.com"
+
+      - name: Configure AWS CLI for R2
+        run: |
+          aws configure set aws_access_key_id "${{ secrets.R2_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.R2_SECRET_ACCESS_KEY }}"
+          aws configure set region auto
+
+      - name: Sync NTP
+        run: sudo timedatectl set-ntp true
+
+      - name: Clean previous build
+        run: |
+          cd ~/WrathOS/build
+          sudo lb clean --all
+          sudo chown -R zxd:zxd ~/WrathOS/build/.build ~/WrathOS/build/cache 2>/dev/null || true
+
+      - name: Configure live-build
+        run: |
+          cd ~/WrathOS/build
+          lb config \
+            --distribution trixie \
+            --archive-areas "main contrib non-free non-free-firmware" \
+            --binary-images iso-hybrid \
+            --bootloader grub-efi \
+            --debian-installer none \
+            --apt-indices false \
+            --memtest none \
+            --bootappend-live "boot=live components quiet splash"
+
+      - name: Build ISO
+        run: |
+          cd ~/WrathOS/build
+          sudo lb build 2>&1 | tee ~/wrathos/build.log
+
+      - name: Rename and stage ISO
+        id: iso
+        run: |
+          ISO_DATE=$(date +%Y%m%d)
+          ISO_NAME="WrathOS-0.1-alpha-amd64-${ISO_DATE}.iso"
+          ISO_PATH="${HOME}/WrathOS/build/${ISO_NAME}"
+          mv ~/WrathOS/build/live-image-amd64.hybrid.iso "${ISO_PATH}" 2>/dev/null || \
+            mv ~/WrathOS/build/WrathOS-*.iso "${ISO_PATH}" 2>/dev/null || \
+            mv $(ls ~/WrathOS/build/*.iso | head -1) "${ISO_PATH}"
+          echo "iso_name=${ISO_NAME}" >> $GITHUB_OUTPUT
+          echo "iso_path=${ISO_PATH}" >> $GITHUB_OUTPUT
+          echo "iso_date=${ISO_DATE}" >> $GITHUB_OUTPUT
+          echo "iso_url=https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/${ISO_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Upload ISO to R2
+        run: |
+          aws s3 cp "${{ steps.iso.outputs.iso_path }}" \
+            "s3://wrathos-apt/releases/${{ steps.iso.outputs.iso_name }}" \
+            --endpoint-url "${{ secrets.R2_ENDPOINT }}"
+
+      - name: Remove old ISOs from R2
+        run: |
+          aws s3 ls s3://wrathos-apt/releases/ --endpoint-url "${{ secrets.R2_ENDPOINT }}" \
+            | awk '{print $4}' \
+            | grep '\.iso$' \
+            | grep -v "${{ steps.iso.outputs.iso_name }}" \
+            | while read f; do
+                aws s3 rm "s3://wrathos-apt/releases/${f}" \
+                  --endpoint-url "${{ secrets.R2_ENDPOINT }}" || true
+              done
+
+      - name: Create GitHub Release
+        run: |
+          KERNEL_VERSION=$(grep "^KERNEL_VERSION=" ~/WrathOS/kernel/build-kernel.sh | cut -d'"' -f2)
+          gh release create "iso-${{ steps.iso.outputs.iso_date }}" \
+            --repo Vaeldus/WrathOS \
+            --title "WrathOS 0.1-alpha (${{ steps.iso.outputs.iso_date }})" \
+            --notes "## WrathOS 0.1-alpha — ${{ steps.iso.outputs.iso_date }}
+
+**Kernel:** ${KERNEL_VERSION}-cachy (BORE scheduler, ThinLTO, FUTEX2)
+**Desktop:** KDE Plasma on Wayland
+**Base:** Debian Trixie
+
+### Download
+[WrathOS-0.1-alpha-amd64-${{ steps.iso.outputs.iso_date }}.iso](${{ steps.iso.outputs.iso_url }})
+
+> ISO is hosted on Cloudflare R2. Click the link above to download." \
+            || echo "Release creation failed — upload manually."
+
+      - name: Update PROJECT-STATE.md
+        run: |
+          cd $GITHUB_WORKSPACE
+          sed -i "s|https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-.*\.iso|${{ steps.iso.outputs.iso_url }}|g" docs/PROJECT-STATE.md
+          git add docs/PROJECT-STATE.md
+          git diff --cached --quiet || git commit -m "iso: update latest ISO URL to ${{ steps.iso.outputs.iso_name }}"
+          git push origin main

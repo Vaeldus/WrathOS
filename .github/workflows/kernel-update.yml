@@ -9,6 +9,8 @@ jobs:
   check-and-update:
     runs-on: [self-hosted, Linux, X64, build-box]
     timeout-minutes: 180
+    outputs:
+      kernel_updated: ${{ steps.check_update.outputs.kernel_updated }}
 
     steps:
       - name: Checkout repo
@@ -36,7 +38,23 @@ jobs:
 
       - name: Run kernel update script
         run: |
+          rm -f ~/.wrathos-kernel-updated ~/.wrathos-kernel-no-update
           cd $GITHUB_WORKSPACE
           bash kernel/update-kernel.sh
         env:
           R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+
+      - name: Check if kernel was updated
+        id: check_update
+        run: |
+          if [ -f ~/.wrathos-kernel-updated ]; then
+            echo "kernel_updated=true" >> $GITHUB_OUTPUT
+          else
+            echo "kernel_updated=false" >> $GITHUB_OUTPUT
+          fi
+
+  trigger-iso-build:
+    needs: check-and-update
+    if: needs.check-and-update.outputs.kernel_updated == 'true'
+    uses: Vaeldus/WrathOS/.github/workflows/iso-build.yml@main
+    secrets: inherit
