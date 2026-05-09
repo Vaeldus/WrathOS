@@ -6,7 +6,7 @@
 ## Identity
 - **Name:** WrathOS
 - **Tagline:** Forging ahead reliably, Gaming at the edge.
-- **Version:** v0.1-alpha
+- **Version:** v0.5 (Forge)
 - **Base:** Debian Trixie
 - **Kernel:** CachyOS 7.0.3-cachy (BORE scheduler, ThinLTO, FUTEX2)
 - **Desktop:** KDE Plasma 6.3 on Wayland, SDDM
@@ -142,7 +142,7 @@ sudo lb build 2>&1 | tee ~/wrathos/build.log
 
 ### ISO Release
 - ISOs hosted on Cloudflare R2 (too large for GitHub 2GB release limit)
-- Latest: https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-0.1-alpha-amd64-20260425.iso
+- Latest: https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-0.5-Forge-amd64-20260425.iso
 - Upload: `aws s3 cp <iso> s3://wrathos-apt/releases/<iso> --endpoint-url <R2_ENDPOINT>`
 
 ### Common ISO Build Issues
@@ -297,4 +297,4 @@ Installed bundles tracked at `~/.wrathos-bundles-installed`.
 | 2026-04-25 | v0.1-alpha | 7.0.0-cachy | R2 hosting, CI pipeline |
 
 ### Latest ISO
-https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-0.1-alpha-amd64-20260425.iso
+https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-0.5-Forge-amd64-20260425.iso
