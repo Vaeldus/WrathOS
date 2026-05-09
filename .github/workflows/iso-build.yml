@@ -57,7 +57,7 @@ jobs:
         id: iso
         run: |
           ISO_DATE=$(date +%Y%m%d)
-          ISO_NAME="WrathOS-0.1-alpha-amd64-${ISO_DATE}.iso"
+          ISO_NAME="WrathOS-0.5-Forge-amd64-${ISO_DATE}.iso"
           ISO_PATH="${HOME}/WrathOS/build/${ISO_NAME}"
           mv ~/WrathOS/build/live-image-amd64.hybrid.iso "${ISO_PATH}" 2>/dev/null || \
             mv ~/WrathOS/build/WrathOS-*.iso "${ISO_PATH}" 2>/dev/null || \
@@ -89,15 +89,15 @@ jobs:
           KERNEL_VERSION=$(grep "^KERNEL_VERSION=" ~/WrathOS/kernel/build-kernel.sh | cut -d'"' -f2)
           gh release create "iso-${{ steps.iso.outputs.iso_date }}" \
             --repo Vaeldus/WrathOS \
-            --title "WrathOS 0.1-alpha (${{ steps.iso.outputs.iso_date }})" \
-            --notes "## WrathOS 0.1-alpha — ${{ steps.iso.outputs.iso_date }}
+            --title "WrathOS 0.5 (Forge) (${{ steps.iso.outputs.iso_date }})" \
+            --notes "## WrathOS 0.5 (Forge) — ${{ steps.iso.outputs.iso_date }}
 
 **Kernel:** ${KERNEL_VERSION}-cachy (BORE scheduler, ThinLTO, FUTEX2)
 **Desktop:** KDE Plasma on Wayland
 **Base:** Debian Trixie
 
 ### Download
-[WrathOS-0.1-alpha-amd64-${{ steps.iso.outputs.iso_date }}.iso](${{ steps.iso.outputs.iso_url }})
+[WrathOS-0.5-Forge-amd64-${{ steps.iso.outputs.iso_date }}.iso](${{ steps.iso.outputs.iso_url }})
 
 > ISO is hosted on Cloudflare R2. Click the link above to download." \
             || echo "Release creation failed — upload manually."
