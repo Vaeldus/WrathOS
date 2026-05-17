@@ -4,6 +4,9 @@ on:
   workflow_call:  # Called by kernel-update workflow after successful update
   workflow_dispatch:  # Allow manual trigger
 
+permissions:
+  contents: write
+
 jobs:
   build-iso:
     runs-on: [self-hosted, Linux, X64, build-box]
@@ -14,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure git
         run: |
