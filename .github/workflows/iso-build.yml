@@ -87,19 +87,21 @@ jobs:
       - name: Create GitHub Release
         run: |
           KERNEL_VERSION=$(grep "^KERNEL_VERSION=" ~/WrathOS/kernel/build-kernel.sh | cut -d'"' -f2)
+          NOTES="## WrathOS 0.5 (Forge) — ${{ steps.iso.outputs.iso_date }}
+
+          **Kernel:** ${KERNEL_VERSION}-cachy (BORE scheduler, ThinLTO, FUTEX2)
+          **Desktop:** KDE Plasma on Wayland
+          **Base:** Debian Trixie
+
+          ### Download
+          [WrathOS-0.5-Forge-amd64-${{ steps.iso.outputs.iso_date }}.iso](${{ steps.iso.outputs.iso_url }})
+
+          > ISO is hosted on Cloudflare R2. Click the link above to download."
+
           gh release create "iso-${{ steps.iso.outputs.iso_date }}" \
             --repo Vaeldus/WrathOS \
             --title "WrathOS 0.5 (Forge) (${{ steps.iso.outputs.iso_date }})" \
-            --notes "## WrathOS 0.5 (Forge) — ${{ steps.iso.outputs.iso_date }}
-
-**Kernel:** ${KERNEL_VERSION}-cachy (BORE scheduler, ThinLTO, FUTEX2)
-**Desktop:** KDE Plasma on Wayland
-**Base:** Debian Trixie
-
-### Download
-[WrathOS-0.5-Forge-amd64-${{ steps.iso.outputs.iso_date }}.iso](${{ steps.iso.outputs.iso_url }})
-
-> ISO is hosted on Cloudflare R2. Click the link above to download." \
+            --notes "${NOTES}" \
             || echo "Release creation failed — upload manually."
 
       - name: Update PROJECT-STATE.md
