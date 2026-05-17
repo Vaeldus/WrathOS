@@ -46,8 +46,8 @@
 - **Key format:** Binary (not armored) — export with `gpg --export` not `gpg --armor --export`
 
 ### Repo Contents
-- `linux-image-7.0.3-cachy`
-- `linux-headers-7.0.3-cachy`
+- `linux-image-7.0.9-cachy`
+- `linux-headers-7.0.9-cachy`
 - `linux-libc-dev`
 - `wrathos-kernel` (meta-package v7.0.3 — depends on current kernel, enables `apt upgrade` for kernels)
 - `wrathos-base`
