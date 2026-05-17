@@ -109,7 +109,7 @@ info "Kernel build complete."
 
 # ── Step 8: Collect new debs ──────────────────────────────────────────────────
 step "Collecting built .deb packages..."
-NEW_DEBS=$(ls "${KERNEL_DIR}/linux-"*"-cachy_"*"_amd64.deb" "${KERNEL_DIR}/linux-libc-dev_"*"_amd64.deb" 2>/dev/null | grep -v "-dbg_")
+NEW_DEBS=$(find "${KERNEL_DIR}" -maxdepth 1 \( -name "linux-*-cachy_*_amd64.deb" -o -name "linux-libc-dev_*_amd64.deb" \) | grep -v "\-dbg_")
 
 if [ -z "${NEW_DEBS}" ]; then
     error "No .deb files found after build. Check ${KERNEL_DIR}/build.log"

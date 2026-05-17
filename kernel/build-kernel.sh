@@ -11,7 +11,7 @@
 set -e
 
 # ── Configuration ────────────────────────────────────────────────────────────
-KERNEL_VERSION="7.0.3"
+KERNEL_VERSION="7.0.9"
 CACHY_TAG="cachyos-${KERNEL_VERSION}-1"
 LOCALVERSION="-cachy"
 DEB_VERSION="1"
@@ -101,5 +101,7 @@ make -j"${JOBS}" bindeb-pkg \
     2>&1 | tee "${BUILD_DIR}/build.log"
 
 # ── Done ──────────────────────────────────────────────────────────────────────
+# Remove debug package if generated
+rm -f "${BUILD_DIR}"/linux-image-*-dbg_*.deb
 info "Build complete. Packages are in ${BUILD_DIR}/"
 ls "${BUILD_DIR}"/*.deb
