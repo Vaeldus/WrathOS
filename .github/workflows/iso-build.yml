@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WRATHOS_CI_PAT }}
 
       - name: Configure git
         run: |
@@ -114,4 +114,4 @@ jobs:
           sed -i "s|https://pub-eb0cb388725b4257a37f7d082e4d229b.r2.dev/releases/WrathOS-.*\.iso|${{ steps.iso.outputs.iso_url }}|g" docs/PROJECT-STATE.md
           git add docs/PROJECT-STATE.md
           git diff --cached --quiet || git commit -m "iso: update latest ISO URL to ${{ steps.iso.outputs.iso_name }}"
-          git push origin main
+          git push https://x-access-token:${{ secrets.WRATHOS_CI_PAT }}@github.com/Vaeldus/WrathOS.git main
